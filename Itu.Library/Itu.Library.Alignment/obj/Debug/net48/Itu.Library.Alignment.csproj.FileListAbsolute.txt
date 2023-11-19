@@ -1,0 +1,11 @@
+C:\Users\zinnu\source\repos\Itu.Library\Itu.Library.Alignment\bin\Debug\net48\Itu.Library.Alignment.gha
+C:\Users\zinnu\AppData\Roaming\Grasshopper\Libraries\Alignment\Debug\net48\Itu.Library.Alignment.gha
+C:\Users\zinnu\AppData\Roaming\Grasshopper\Libraries\Alignment\Debug\net48\Itu.Library.Alignment.pdb
+C:\Users\zinnu\source\repos\Itu.Library\Itu.Library.Alignment\obj\Debug\net48\Itu.Library.Alignment.csproj.AssemblyReference.cache
+C:\Users\zinnu\source\repos\Itu.Library\Itu.Library.Alignment\obj\Debug\net48\Itu.Library.Alignment.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\zinnu\source\repos\Itu.Library\Itu.Library.Alignment\obj\Debug\net48\Itu.Library.Alignment.AssemblyInfoInputs.cache
+C:\Users\zinnu\source\repos\Itu.Library\Itu.Library.Alignment\obj\Debug\net48\Itu.Library.Alignment.AssemblyInfo.cs
+C:\Users\zinnu\source\repos\Itu.Library\Itu.Library.Alignment\obj\Debug\net48\Itu.Library.Alignment.csproj.CoreCompileInputs.cache
+C:\Users\zinnu\source\repos\Itu.Library\Itu.Library.Alignment\obj\Debug\net48\Itu.Library.Alignment.gha
+C:\Users\zinnu\source\repos\Itu.Library\Itu.Library.Alignment\obj\Debug\net48\Itu.Library.Alignment.pdb
+C:\Users\zinnu\source\repos\Itu.Library\Itu.Library.Alignment\bin\Debug\net48\Itu.Library.Alignment.pdb

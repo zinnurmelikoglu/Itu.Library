@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "iSbLyw8vHfosZ5Z+gXqz8orR4+EuujJwI+FESmLbxC67UB1galkIDE7cDT1mvzZqbTB2v5EkW9iuw4qHpjtqmw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\zinnu\\source\\repos\\Itu.Library\\Itu.Library.Alignment\\Itu.Library.Alignment.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\zinnu\\.nuget\\packages\\grasshopper\\7.13.21348.13001\\grasshopper.7.13.21348.13001.nupkg.sha512",
+    "C:\\Users\\zinnu\\.nuget\\packages\\rhinocommon\\7.13.21348.13001\\rhinocommon.7.13.21348.13001.nupkg.sha512"
+  ],
+  "logs": []
+}

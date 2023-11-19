@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33530.505
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Itu.Library.Alignment", "Itu.Library.Alignment\Itu.Library.Alignment.csproj", "{B3040F66-1C39-4A40-AA07-3C07E65C10AF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B3040F66-1C39-4A40-AA07-3C07E65C10AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3040F66-1C39-4A40-AA07-3C07E65C10AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3040F66-1C39-4A40-AA07-3C07E65C10AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3040F66-1C39-4A40-AA07-3C07E65C10AF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E0DC4613-951F-4997-A3BF-C56B7B68EC61}
+	EndGlobalSection
+EndGlobal
