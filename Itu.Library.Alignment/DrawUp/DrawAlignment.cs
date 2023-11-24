@@ -1,4 +1,5 @@
-﻿using Rhino.Geometry;
+﻿using Itu.Library.Alignment.Util;
+using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,9 +23,19 @@ namespace Itu.Library.Alignment.DrawUp
     //    public double pointSecond;
     //    public double target;
 
-    public DrawAlignment(double coordX, double coordY, double tanVal, FacadeArea area)
+    //public DrawAlignment(double coordX, double coordY, double tanVal, FacadeArea area)
+    //{
+    //  Area = area;
+    //  Width = Area.Width;
+    //  Height = Area.Height;
+    //  CoordX = coordX;
+    //  CoordY = coordY;
+    //  TanVal = tanVal;
+    //}
+
+    public DrawAlignment(double coordX, double coordY, double tanVal)
     {
-      Area = area;
+      Area = EntityBase.GetValue<FacadeArea>("area");
       Width = Area.Width;
       Height = Area.Height;
       CoordX = coordX;

@@ -1,6 +1,8 @@
 ﻿using Itu.Library.Alignment.Compare;
+using Itu.Library.Alignment.DrawUp;
 using Itu.Library.Alignment.Element;
 using Itu.Library.Alignment.Geometry;
+using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +18,7 @@ namespace Itu.Library.Alignment.Compare
     public List<PLGeometry> GeometryList { get; set; }
     List<PLElement> ElementList_First { get { return Geometry_First.GetElementList(); } }
     List<PLElement> ElementList_Second { get { return Geometry_Second.GetElementList(); } }
+    public List<Line> LineList { get; set; }
 
     public bool isAligned { get; set; }
     double factor { get; set; }
@@ -26,6 +29,7 @@ namespace Itu.Library.Alignment.Compare
     {
       Geometry_First = plGeometry_Base;
       Geometry_Second = plGeometry_Temp;
+      LineList = new List<Line>();
 
       intersect = 0;
       isAligned = false;
@@ -37,6 +41,7 @@ namespace Itu.Library.Alignment.Compare
       //var elementList = PLGeometry_Base.GetElementList();
       foreach (var element in ElementList_First)
       {
+
         foreach (var temp in ElementList_Second)
         {
           CompareFactory compareFactory = new CompareFactory(element, temp);
@@ -44,7 +49,10 @@ namespace Itu.Library.Alignment.Compare
 
           if (compare.CompareElement())
           {
+            var tanVal = element.TanVal;
             //lineList.Add(new DrawAlignment(element.PointFirst.X, element.PointFirst.Y, tanVal, facadeArea).GenerateAlignment());
+            LineList.Add(new DrawAlignment(element.PointFirst.X, element.PointFirst.Y, tanVal).GenerateAlignment());
+
 
             var strength = compare.AlignmentStrength();
             //StrengthList.Add(tanVal);

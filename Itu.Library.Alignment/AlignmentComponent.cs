@@ -4,6 +4,7 @@ using Itu.Library.Alignment.Compare;
 using Itu.Library.Alignment.DrawUp;
 using Itu.Library.Alignment.Element;
 using Itu.Library.Alignment.Geometry;
+using Itu.Library.Alignment.Util;
 using Rhino.Collections;
 using Rhino.Geometry;
 using System;
@@ -15,6 +16,8 @@ namespace Itu.Library.Alignment
 {
     public class AlignmentComponent : GH_Component
   {
+    //EntityBase _base { get; set; }
+
     /// <summary>
     /// Each implementation of GH_Component must provide a public 
     /// constructor without any arguments.
@@ -28,6 +31,7 @@ namespace Itu.Library.Alignment
         "Curve", "Primitive")
     //"The thesis for Istanbul Technical University", "The Facade Analysis")
     {
+      //_base = new EntityBase();
     }
 
     /// <summary>
@@ -67,11 +71,11 @@ namespace Itu.Library.Alignment
       DA.GetDataList("curveList", curveList);
       DA.GetData("area", ref area);
 
-
       #region Specifying Facade Area
 
       Rectangle3d rect = area;
       var facadeArea = new FacadeArea(rect.Width, rect.Height);
+      EntityBase.SetValue("area", facadeArea);
       var listCount = curveList.Count();
 
       #endregion
@@ -157,12 +161,18 @@ namespace Itu.Library.Alignment
         }
       }
 
+      //lineList = FillLineList(compareList);
 
-      foreach (var correspond in compareList) {
+      foreach (var compare in compareList){
 
-        correspond.Compare();
+        compare.Compare();
 
       }
+
+      var test = compareList.ComparedByGeometry(geometryList[0]);
+
+      var lineList_ = compareList.GetLineList();
+
 
       //List<PLGeometry> storageList = new List<PLGeometry>();
       //foreach (var geometry in geometryList)
