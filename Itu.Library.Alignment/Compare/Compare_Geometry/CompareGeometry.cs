@@ -29,6 +29,7 @@ namespace Itu.Library.Alignment.Compare
 
       intersect = 0;
       isAligned = false;
+
     }
 
     public bool Compare()
