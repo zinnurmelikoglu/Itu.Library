@@ -9,14 +9,14 @@ namespace Itu.Library.Alignment.Util
   public static class EntityBase
   {
     public static Dictionary<string, object> _dict = new Dictionary<string, object>();
-    public static T GetValue<T>(string columnName)
+    public static T GetValue<T>(string dictName)
     {
-      return _dict.ContainsKey(columnName) ? (T)_dict[columnName] : (T)default;
+      return _dict.ContainsKey(dictName) ? (T)_dict[dictName] : (T)default;
     }
-    public static void SetValue<T>(string columnName, T value)
+    public static void SetValue<T>(string dictName, T value)
     {
-      if (!_dict.ContainsKey(columnName))
-        _dict.Add(columnName, value);
+      if (!_dict.ContainsKey(dictName))
+        _dict.Add(dictName, value);
 
     }
 

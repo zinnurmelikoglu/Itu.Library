@@ -33,23 +33,22 @@ namespace Itu.Library.Alignment.Compare
       return GetEnumerator();
     }
 
-    public List<PLGeometry> ComparedByGeometry(PLGeometry plGeometry)
-    {
-      List<PLGeometry> geometryList = new List<PLGeometry>();
-      
-      return (List<PLGeometry>)compareList.Where(s => s.isAligned && s.Geometry_First.Intersect(plGeometry).Any()).Select(s => s.Geometry_Second)
-      .Concat(compareList.Where(s => s.isAligned && s.Geometry_Second.Intersect(plGeometry).Any()).Select(s => s.Geometry_First)).ToList();
-
-    }
-
     public List<Line> GetLineList()
     {
       List<Line> lineList = new List<Line>();
+      return (List<Line>)compareList.Where(s => s.isAligned).SelectMany(s => s.LineList).ToList();
 
-      //return (List<PLGeometry>)compareList.Where(s => s.isAligned && s.Geometry_First.Intersect(plGeometry).Any()).Select(s => s.Geometry_Second)
-      //.Concat(compareList.Where(s => s.isAligned && s.Geometry_Second.Intersect(plGeometry).Any()).Select(s => s.Geometry_First));
+    }
 
-      return (List<Line>)compareList.Where(s => s.isAligned).Select(s => s.LineList);
+    public Double GetFactor()
+    {
+      double intersect = 0.0;
+      int compareCount = this.Count();
+      foreach (CompareGeometry compareGeometry in this) {
+        intersect += compareGeometry.Intersect;
+      }
+
+      return intersect / compareCount;
 
     }
 

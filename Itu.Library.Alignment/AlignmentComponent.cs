@@ -161,19 +161,16 @@ namespace Itu.Library.Alignment
         }
       }
 
-      //lineList = FillLineList(compareList);
-
       foreach (var compare in compareList){
 
         compare.Compare();
 
       }
 
-      var test = compareList.ComparedByGeometry(geometryList[0]);
-
-      var lineList_ = compareList.GetLineList();
+      lineList = compareList.GetLineList();
 
 
+      #region Canceling Code Block
       //List<PLGeometry> storageList = new List<PLGeometry>();
       //foreach (var geometry in geometryList)
       //{
@@ -221,6 +218,7 @@ namespace Itu.Library.Alignment
 
       //  }
       //}
+      #endregion
 
       #endregion
 
@@ -230,15 +228,17 @@ namespace Itu.Library.Alignment
 
 
 
-      double result = (double)counter / (listCount * 4);
+      //double result = (double)counter / (listCount * 4);
+      double result = compareList.GetFactor();
       //Print(result.ToString());
       //Print(counter.ToString());
 
-      
+
       DA.SetData("retFactor", result);
-      DA.SetData("retLine", lineList);
+      DA.SetDataList("retLine", lineList);
       //DA.SetData("retStrength", );
-      //DA.SetData("testOutput", );
+      DA.SetDataList("testOutput", geometryList);
+
     }
 
     /// <summary>

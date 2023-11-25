@@ -1,4 +1,5 @@
-﻿using Itu.Library.Alignment.Util;
+﻿using Itu.Library.Alignment.Element;
+using Itu.Library.Alignment.Util;
 using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
@@ -33,14 +34,24 @@ namespace Itu.Library.Alignment.DrawUp
     //  TanVal = tanVal;
     //}
 
-    public DrawAlignment(double coordX, double coordY, double tanVal)
+    //public DrawAlignment(double coordX, double coordY, double tanVal)
+    //{
+    //  Area = EntityBase.GetValue<FacadeArea>("area");
+    //  Width = Area.Width;
+    //  Height = Area.Height;
+    //  CoordX = coordX;
+    //  CoordY = coordY;
+    //  TanVal = tanVal;
+    //}
+
+    public DrawAlignment(PLElement element)
     {
       Area = EntityBase.GetValue<FacadeArea>("area");
       Width = Area.Width;
       Height = Area.Height;
-      CoordX = coordX;
-      CoordY = coordY;
-      TanVal = tanVal;
+      CoordX = element.PointFirst.X;
+      CoordY = element.PointFirst.Y;
+      TanVal = element.TanVal;
     }
 
     public Line GenerateAlignment()
