@@ -44,13 +44,19 @@ namespace Itu.Library.Alignment.Compare
     {
       double intersect = 0.0;
       int compareCount = this.Count();
-      foreach (CompareGeometry compareGeometry in this) {
-        intersect += compareGeometry.Intersect;
-      }
+      //foreach (CompareGeometry compareGeometry in this) {
+      //  intersect += compareGeometry.Intersect;
+      //}
+      
+      compareList.ForEach(m => { intersect += m.GetIntersectFactor(); });
 
       return intersect / compareCount;
 
     }
+
+    //public double GetDistance(Line line) {
+    
+    //}
 
   }
 }

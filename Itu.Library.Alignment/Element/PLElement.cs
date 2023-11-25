@@ -22,6 +22,7 @@ namespace Itu.Library.Alignment.Element
     public double TanVal_Rounded { get { return Math.Round(TanVal, 2); } }
     Func<Point3d, Point3d, double> calTanVal = GetTanVal;
 
+    public TangentType TanType { get; }
 
     public double Ref_X { get { return getRefX(PointFirst, PointSecond, TanVal); } }
     public double Ref_Y { get { return getRefY(PointFirst, PointSecond, TanVal); } }
@@ -34,7 +35,7 @@ namespace Itu.Library.Alignment.Element
       Element = polyline;
       PointList = new List<Point3d>();
       polyline.ForEach(m => { PointList.Add(m); });
-
+      TanType = new TangentStatus(TanVal).GetTangentType();
     }
 
     public static double GetTanVal(Point3d p1, Point3d p2)

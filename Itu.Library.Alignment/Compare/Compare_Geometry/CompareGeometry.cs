@@ -18,16 +18,18 @@ namespace Itu.Library.Alignment.Compare
     public List<PLGeometry> GeometryList { get; set; }
     List<PLElement> ElementList_First => Geometry_First.GetElementList();
     List<PLElement> ElementList_Second => Geometry_Second.GetElementList();
+    List<AlignedElement> AlignedElementList { get; set; }
     public List<Line> LineList { get; set; }
     public bool isAligned { get; set; }
     double factor => 0.5;
-    public double Intersect { get; set; }
+    double Intersect { get; set; }
 
     public CompareGeometry(PLGeometry geometry_First, PLGeometry geometry_Second)
     {
       Geometry_First = geometry_First;
       Geometry_Second = geometry_Second;
       LineList = new List<Line>();
+      AlignedElementList = new List<AlignedElement>();
 
       Intersect = 0.0;
       isAligned = false;
@@ -48,7 +50,12 @@ namespace Itu.Library.Alignment.Compare
 
           if (compare.CompareElement())
           {
-            LineList.Add(new DrawAlignment(element).GenerateAlignment());
+            AlignedElementList.Add(compare.GetAlignedElement());
+
+
+            //LineList.Add(new DrawAlignment(element).GenerateAlignment());
+            LineList.Add(compare.GetAlignedElement().AlignmentDraw());
+
             var strength = compare.AlignmentStrength();
             //StrengthList.Add(tanVal);
             //StrengthList.Add(strength);
@@ -64,6 +71,8 @@ namespace Itu.Library.Alignment.Compare
 
       return isAligned;
     }
+
+    public Double GetIntersectFactor() => Intersect;
 
 
   }

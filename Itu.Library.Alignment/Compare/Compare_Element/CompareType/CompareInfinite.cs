@@ -9,28 +9,36 @@ namespace Itu.Library.Alignment.Compare
 {
     public class CompareInfinite : ICompare
   {
-    public PLElement PLElement_Base { get; set; }
-    public PLElement PLElement_Temp { get; set; }
+    public PLElement PLElement_First { get; set; }
+    public PLElement PLElement_Second { get; set; }
     public double TolerateVal { get; set; }
+    public TangentType TangentType => TangentType.Infinite;
 
     public CompareInfinite(PLElement plElement_Base, PLElement plElement_Temp)
     {
-      PLElement_Base = plElement_Base;
-      PLElement_Temp = plElement_Temp;
+      PLElement_First = plElement_Base;
+      PLElement_Second = plElement_Temp;
       TolerateVal = 5.0;
     }
 
     public Boolean CompareElement()
     {
-      double tanVal_temp = PLElement_Temp.TanVal_Rounded;
-      double ref_X_base = PLElement_Base.Ref_X;
-      double ref_X_temp = PLElement_Temp.Ref_X;
+      double tanVal_base = PLElement_First.TanVal_Rounded;
+      double tanVal_temp = PLElement_Second.TanVal_Rounded;
+      double ref_X_base = PLElement_First.Ref_X;
+      double ref_X_temp = PLElement_Second.Ref_X;
 
       //return Double.IsInfinity(tanVal_temp) && ref_X_base == ref_X_temp ? true : false;
-      return Double.IsInfinity(tanVal_temp) &&
-        (ref_X_base > (ref_X_temp - TolerateVal)) &&
-        ((ref_X_temp + TolerateVal) > ref_X_base) ? true : false;
+      //return Double.IsInfinity(tanVal_temp) &&
+      //  (ref_X_base > (ref_X_temp - TolerateVal)) &&
+      //  ((ref_X_temp + TolerateVal) > ref_X_base) ? true : false;
 
+      return ((Double.IsInfinity(tanVal_base) && (Double.IsInfinity(tanVal_temp))) && (Math.Abs(ref_X_base - ref_X_temp) <= TolerateVal));
+
+    }
+    public AlignedElement GetAlignedElement()
+    {
+      return new AlignedElement(PLElement_First, PLElement_Second);
     }
 
     //    public double AlignmentStrength()

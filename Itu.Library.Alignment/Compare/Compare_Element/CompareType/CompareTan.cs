@@ -9,25 +9,26 @@ namespace Itu.Library.Alignment.Compare
 {
   public class CompareTan : ICompare
   {
-    public PLElement PLElement_Base { get; set; }
-    public PLElement PLElement_Temp { get; set; }
+    public PLElement PLElement_First { get; set; }
+    public PLElement PLElement_Second { get; set; }
     public double TolerateVal { get; set; }
+    public TangentType TangentType => TangentType.Tangent;
 
     public CompareTan(PLElement plElement_Base, PLElement plElement_Temp)
     {
-      PLElement_Base = plElement_Base;
-      PLElement_Temp = plElement_Temp;
+      PLElement_First = plElement_Base;
+      PLElement_Second = plElement_Temp;
       TolerateVal = 5.0;
     }
 
     public Boolean CompareElement()
     {
-      double tanVal_base = PLElement_Base.TanVal_Rounded;
-      double tanVal_temp = PLElement_Temp.TanVal_Rounded;
-      double ref_X_base = PLElement_Base.Ref_X;
-      double ref_X_temp = PLElement_Temp.Ref_X;
-      double ref_Y_base = PLElement_Base.Ref_Y;
-      double ref_Y_temp = PLElement_Temp.Ref_Y;
+      double tanVal_base = PLElement_First.TanVal_Rounded;
+      double tanVal_temp = PLElement_Second.TanVal_Rounded;
+      double ref_X_base = PLElement_First.Ref_X;
+      double ref_X_temp = PLElement_Second.Ref_X;
+      double ref_Y_base = PLElement_First.Ref_Y;
+      double ref_Y_temp = PLElement_Second.Ref_Y;
 
       //return tanVal_base == tanVal_temp && ref_X_base == ref_X_temp && ref_Y_base == ref_Y_temp ? true : false;
       return tanVal_base == tanVal_temp &&
@@ -36,6 +37,11 @@ namespace Itu.Library.Alignment.Compare
         (ref_Y_base > (ref_Y_temp - TolerateVal)) &&
         ((ref_Y_temp + TolerateVal) > ref_Y_base) ? true : false;
 
+    }
+
+    public AlignedElement GetAlignedElement()
+    {
+      return new AlignedElement(PLElement_First, PLElement_Second);
     }
 
     //    public double AlignmentStrength()
