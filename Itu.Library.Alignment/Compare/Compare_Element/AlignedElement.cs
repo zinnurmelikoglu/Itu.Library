@@ -35,7 +35,7 @@ namespace Itu.Library.Alignment.Compare
     public Line AlignmentDraw()
     {
       //return new Line(point_First, point_Second, Element_First.TanType);
-      return new DrawAlignment(point_First, point_Second, Element_First.TanType).GenerateAlignment();
+      return new DrawAlignment(point_First, point_Second, Element_First.TanType).GenerateAlignmentLine();
 
     }
 

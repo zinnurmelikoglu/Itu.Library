@@ -15,7 +15,7 @@ namespace Itu.Library.Alignment.Compare
     double TanVal { get; set; }
     double neutral = 0.0;
     Double Neutral { get { return neutral; } }
-    ICompare Compare { get; set; }
+    AbstractCompare Compare { get; set; }
 
     public CompareFactory(PLElement element_First, PLElement element_Second)
     {
@@ -26,7 +26,7 @@ namespace Itu.Library.Alignment.Compare
 
     }
 
-    public ICompare CompareType()
+    public AbstractCompare CompareType()
     {
       double neutral = 0.0;
       //double tanVal = PLElement_Base.TanVal_Rounded;

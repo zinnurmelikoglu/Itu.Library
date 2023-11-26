@@ -137,106 +137,40 @@ namespace Itu.Library.Alignment
       GeometryList has all geometries assigned as a curve
       TempGeometryList has all geometries except selected
       All geometry includes elements extracted by GetElementList method
-
       */
 
-      int counter = 0;
       List<Line> lineList = new List<Line>();
-      List<AlignmentStatus> alignmentList = new List<AlignmentStatus>();
       List<Double> StrengthList = new List<Double>();
-
-
       List<PLGeometry> storageList = new List<PLGeometry>();
       CompareList compareList = new CompareList();
       foreach (var geometry in geometryList)
       {
         storageList.Add(geometry);
-        //var tempGeometryList = geometryList.Except(new List<PLGeometry>(){geometry});
+        //var tempGeometryList = geometryList.Except(new List<PLGeometry>(){geometry}); It is marked so that matched geometry may be matched in the future
         var tempGeometryList = geometryList.Except(storageList);
         
         foreach (var tempGeometry in tempGeometryList)
         {
           compareList.AddGeometry(new CompareGeometry(geometry, tempGeometry));
-          //compareList.AddGeometry(new CompareGeometry(new List<PLGeometry>() { geometry, tempGeometry }));
         }
       }
 
-      foreach (var compare in compareList){
-
-        compare.Compare();
-
-      }
+      /*
+      CompareList is filled out with all matches regardless of whether they are aligned
+      Compare method is called in the CompareList full of CompareGeometry
+      lineList, StrenghtList and result are requested from CompareList IEnumerable Class by calling suitable methods giving matched geometry information
+      */
+      compareList.compareList.ForEach(compare => { compare.Compare(); });  //Lets compare each geometry
 
       lineList = compareList.GetLineList();
-
-
-      #region Canceling Code Block
-      //List<PLGeometry> storageList = new List<PLGeometry>();
-      //foreach (var geometry in geometryList)
-      //{
-      //  storageList.Add(geometry);
-      //  //var tempGeometryList = geometryList.Except(new List<PLGeometry>(){geometry});
-      //  var tempGeometryList = geometryList.Except(storageList);
-      //  var elementList = geometry.GetElementList();
-
-      //  foreach (var element in elementList)
-      //  {
-      //    var tanVal = element.TanVal;
-      //    var ref_X = element.Ref_X;
-      //    var ref_Y = element.Ref_Y;
-
-      //    double neutral = 0.0;
-      //    Point3d pointFirst = new Point3d(ref_X, neutral, neutral);
-      //    Point3d pointSecond = new Point3d(ref_X, ref_Y, neutral);
-
-      //    foreach (var tempGeometry in tempGeometryList)
-      //    {
-
-      //      var comparedGeometry = geometryList.Intersect(new List<PLGeometry>() { tempGeometry });
-      //      var tempElementList = tempGeometry.GetElementList();
-      //      foreach (var temp in tempElementList)
-      //      {
-      //        CompareFactory compareFactory = new CompareFactory(element, temp);
-      //        ICompare compare = compareFactory.CompareType();
-      //        if (compare.CompareElement())
-      //        {
-      //          lineList.Add(new DrawAlignment(element.PointFirst.X, element.PointFirst.Y, tanVal, facadeArea).GenerateAlignment());
-
-      //          var strength = compare.AlignmentStrength();
-      //          //StrengthList.Add(tanVal);
-      //          StrengthList.Add(strength);
-
-      //          counter++;
-
-      //          geometry.isAligned = true;
-      //          geometry.AlignedGeometry.AddRange(comparedGeometry);
-
-      //        }
-
-      //      }
-      //    }
-
-      //  }
-      //}
-      #endregion
-
-      #endregion
-
-
-
-
-
-
-
-      //double result = (double)counter / (listCount * 4);
+      StrengthList = compareList.GetAlignmentStrengthList();
       double result = compareList.GetFactor();
-      //Print(result.ToString());
-      //Print(counter.ToString());
 
+      #endregion
 
       DA.SetData("retFactor", result);
       DA.SetDataList("retLine", lineList);
-      //DA.SetData("retStrength", );
+      DA.SetDataList("retStrength", StrengthList );
       DA.SetDataList("testOutput", geometryList);
 
     }

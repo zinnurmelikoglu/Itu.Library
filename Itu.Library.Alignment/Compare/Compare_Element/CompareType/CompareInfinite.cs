@@ -1,4 +1,5 @@
 ﻿using Itu.Library.Alignment.Element;
+using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,53 +8,36 @@ using System.Threading.Tasks;
 
 namespace Itu.Library.Alignment.Compare
 {
-    public class CompareInfinite : ICompare
+    public class CompareInfinite : AbstractCompare
   {
-    public PLElement PLElement_First { get; set; }
-    public PLElement PLElement_Second { get; set; }
-    public double TolerateVal { get; set; }
-    public TangentType TangentType => TangentType.Infinite;
+    public override PLElement Element_First { get; set; }
+    public override PLElement Element_Second { get; set; }
+    public override double TolerateVal { get; set; }
+    public override TangentType TangentType => TangentType.Infinite;
+    public override bool isAligned { get; set; }
+    //public override Point3d point_First { get; }
+    //public override Point3d point_Second { get; }
 
-    public CompareInfinite(PLElement plElement_Base, PLElement plElement_Temp)
+    public CompareInfinite(PLElement element_First, PLElement element_Second) : base(element_First, element_Second)
     {
-      PLElement_First = plElement_Base;
-      PLElement_Second = plElement_Temp;
-      TolerateVal = 5.0;
     }
 
-    public Boolean CompareElement()
+    public override Boolean CompareElement()
     {
-      double tanVal_base = PLElement_First.TanVal_Rounded;
-      double tanVal_temp = PLElement_Second.TanVal_Rounded;
-      double ref_X_base = PLElement_First.Ref_X;
-      double ref_X_temp = PLElement_Second.Ref_X;
+      double tanVal_base = Element_First.TanVal_Rounded;
+      double tanVal_temp = Element_Second.TanVal_Rounded;
+      double ref_X_base = Element_First.Ref_X;
+      double ref_X_temp = Element_Second.Ref_X;
 
-      //return Double.IsInfinity(tanVal_temp) && ref_X_base == ref_X_temp ? true : false;
-      //return Double.IsInfinity(tanVal_temp) &&
-      //  (ref_X_base > (ref_X_temp - TolerateVal)) &&
-      //  ((ref_X_temp + TolerateVal) > ref_X_base) ? true : false;
-
-      return ((Double.IsInfinity(tanVal_base) && (Double.IsInfinity(tanVal_temp))) && (Math.Abs(ref_X_base - ref_X_temp) <= TolerateVal));
+      return isAligned = ((Double.IsInfinity(tanVal_base) && (Double.IsInfinity(tanVal_temp))) && (Math.Abs(ref_X_base - ref_X_temp) <= TolerateVal));
 
     }
-    public AlignedElement GetAlignedElement()
-    {
-      return new AlignedElement(PLElement_First, PLElement_Second);
-    }
+    //public AlignedElement GetAlignedElement()
+    //{
+    //  return new AlignedElement(Element_First, Element_Second);
+    //}
 
-    //    public double AlignmentStrength()
-    //    {
-    //      var length_base = PLElement_Base.Element.Length;
-    //      var length_temp = PLElement_Temp.Element.Length;
-    //
-    //      Point3d basePoint = ((Polyline) PLElement_Base.Element).ClosestPoint(new Point3d(PLElement_Base.PointFirst.X, PLElement_Temp.PointFirst.Y, 0.0));
-    //      var disFirst = basePoint.DistanceTo(PLElement_Temp.PointFirst);
-    //      var disSecond = basePoint.DistanceTo(PLElement_Temp.PointSecond);
-    //
-    //      double distance = disFirst > disSecond ? disSecond : disFirst;
-    //      return (length_base + length_temp) / (length_base + length_temp + Math.Abs(distance));
-    //    }
 
-    public double AlignmentStrength() { return 0.0; }
+
   }
 }

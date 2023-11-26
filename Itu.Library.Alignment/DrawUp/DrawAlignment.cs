@@ -22,6 +22,7 @@ namespace Itu.Library.Alignment.DrawUp
 
     public Point3d Point_First;
     public Point3d Point_Second;
+    public TangentType TanType;
 
 
     public DrawAlignment(PLElement element)
@@ -38,10 +39,16 @@ namespace Itu.Library.Alignment.DrawUp
     {
       Point_First = point_First;
       Point_Second = point_Second;
+      TanType = tanType;
     }
 
-    public Line GenerateAlignment()
+    public Line GenerateAlignmentLine()
     {
+      if (TangentType.Neutral.Equals(TanType))
+        return new Line(Point_First, new Point3d(Point_Second.X, Point_First.Y, 0.0));
+      else if (TangentType.Infinite.Equals(TanType))
+        return new Line(Point_First, new Point3d(Point_First.X, Point_Second.Y, 0.0));
+
       return new Line(Point_First, Point_Second);
     }
 

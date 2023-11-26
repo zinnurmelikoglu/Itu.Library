@@ -18,8 +18,9 @@ namespace Itu.Library.Alignment.Compare
     public List<PLGeometry> GeometryList { get; set; }
     List<PLElement> ElementList_First => Geometry_First.GetElementList();
     List<PLElement> ElementList_Second => Geometry_Second.GetElementList();
-    List<AlignedElement> AlignedElementList { get; set; }
+    List<AbstractCompare> AlignedElementList { get; set; }
     public List<Line> LineList { get; set; }
+    public List<Double> StrengthList { get; set; }
     public bool isAligned { get; set; }
     double factor => 0.5;
     double Intersect { get; set; }
@@ -29,7 +30,8 @@ namespace Itu.Library.Alignment.Compare
       Geometry_First = geometry_First;
       Geometry_Second = geometry_Second;
       LineList = new List<Line>();
-      AlignedElementList = new List<AlignedElement>();
+      AlignedElementList = new List<AbstractCompare>();
+      StrengthList = new List<Double>();
 
       Intersect = 0.0;
       isAligned = false;
@@ -38,30 +40,22 @@ namespace Itu.Library.Alignment.Compare
 
     public bool Compare()
     {
-      //var elementList = PLGeometry_Base.GetElementList();
-      
+    
       foreach (var element in ElementList_First)
       {
 
         foreach (var temp in ElementList_Second)
         {
           CompareFactory compareFactory = new CompareFactory(element, temp);
-          ICompare compare = compareFactory.CompareType();
+          AbstractCompare compare = compareFactory.CompareType();
 
           if (compare.CompareElement())
           {
-            AlignedElementList.Add(compare.GetAlignedElement());
-
-
-            //LineList.Add(new DrawAlignment(element).GenerateAlignment());
-            LineList.Add(compare.GetAlignedElement().AlignmentDraw());
-
-            var strength = compare.AlignmentStrength();
-            //StrengthList.Add(tanVal);
-            //StrengthList.Add(strength);
+            AlignedElementList.Add(compare);
+            StrengthList.Add(compare.AlignmentStrength());
+            LineList.Add(compare.AlignmentDraw());
 
             Intersect += factor;
-
             isAligned = true;
 
           }

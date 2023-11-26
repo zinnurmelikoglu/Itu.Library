@@ -7,26 +7,18 @@ using System.Threading.Tasks;
 
 namespace Itu.Library.Alignment.Compare
 {
-  internal class CompareDefault : ICompare
+  internal class CompareDefault : AbstractCompare
   {
-    public PLElement PLElement_First { get; set; }
-    public PLElement PLElement_Second { get; set; }
-    public double TolerateVal { get; set; }
-    public TangentType TangentType => TangentType.Default;
-
-    public double AlignmentStrength()
+    public override PLElement Element_First { get; set; }
+    public override PLElement Element_Second { get; set; }
+    public override double TolerateVal { get; set; }
+    public override TangentType TangentType => TangentType.Default;
+    public override bool isAligned { get; set; }
+    
+    public override bool CompareElement()
     {
-      return Double.NaN;
+      return isAligned = false;
     }
 
-    public bool CompareElement()
-    {
-      return false;
-    }
-
-    public AlignedElement GetAlignedElement()
-    {
-      return null;
-    }
   }
 }

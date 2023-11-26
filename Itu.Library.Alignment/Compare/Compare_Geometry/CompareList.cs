@@ -40,23 +40,23 @@ namespace Itu.Library.Alignment.Compare
 
     }
 
+    public List<Double> GetAlignmentStrengthList()
+    {
+      List<Double> lineList = new List<Double>();
+      return (List<Double>)compareList.Where(s => s.isAligned).SelectMany(s => s.StrengthList).ToList();
+
+    }
+
     public Double GetFactor()
     {
       double intersect = 0.0;
       int compareCount = this.Count();
-      //foreach (CompareGeometry compareGeometry in this) {
-      //  intersect += compareGeometry.Intersect;
-      //}
       
       compareList.ForEach(m => { intersect += m.GetIntersectFactor(); });
-
       return intersect / compareCount;
 
     }
 
-    //public double GetDistance(Line line) {
-    
-    //}
 
   }
 }
