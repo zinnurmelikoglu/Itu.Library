@@ -28,7 +28,8 @@ namespace Itu.Library.Alignment
     public AlignmentComponent()
       : base("AlignmentComp", "Alignment",
         "Understanding of Notre-Dame du Haut Roman Catholic chapel in Ronchamp",
-        "Curve", "Primitive")
+        "Curve", "Analysis")
+    //"Curve", "Primitive")
     //"The thesis for Istanbul Technical University", "The Facade Analysis")
     {
       //_base = new EntityBase();
