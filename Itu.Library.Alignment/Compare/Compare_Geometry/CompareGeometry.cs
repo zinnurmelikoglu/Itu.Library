@@ -3,11 +3,13 @@ using Itu.Library.Alignment.DrawUp;
 using Itu.Library.Alignment.Element;
 using Itu.Library.Alignment.Geometry;
 using Rhino.Geometry;
+using Rhino.Geometry.Intersect;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Itu.Library.Alignment.Compare
 {
@@ -15,6 +17,7 @@ namespace Itu.Library.Alignment.Compare
   {
     public PLGeometry Geometry_First { get; set; }
     public PLGeometry Geometry_Second { get; set; }
+    public List<PLGeometry> Geometry_Rest { get; }
     public List<PLGeometry> GeometryList { get; set; }
     List<PLElement> ElementList_First => Geometry_First.GetElementList();
     List<PLElement> ElementList_Second => Geometry_Second.GetElementList();
@@ -25,10 +28,11 @@ namespace Itu.Library.Alignment.Compare
     double factor => 0.5;
     double Intersect { get; set; }
 
-    public CompareGeometry(PLGeometry geometry_First, PLGeometry geometry_Second)
+    public CompareGeometry(PLGeometry geometry_First, PLGeometry geometry_Second, List<PLGeometry> geometry_Rest)
     {
       Geometry_First = geometry_First;
       Geometry_Second = geometry_Second;
+      Geometry_Rest = geometry_Rest;
       LineList = new List<Line>();
       AlignedElementList = new List<AbstractCompare>();
       StrengthList = new List<Double>();
@@ -57,6 +61,15 @@ namespace Itu.Library.Alignment.Compare
 
             Intersect += factor;
             isAligned = true;
+
+
+            Line line = compare.AlignmentDraw();
+            foreach (var rest in Geometry_Rest)
+            {
+              double neutral = 0.0;
+              CurveIntersections intersected = Intersection.CurveLine(rest.ToPolylineCurve(), line, neutral, neutral);
+
+            }
 
           }
         }

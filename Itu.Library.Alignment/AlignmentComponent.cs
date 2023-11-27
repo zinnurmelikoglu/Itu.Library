@@ -29,7 +29,6 @@ namespace Itu.Library.Alignment
       : base("AlignmentComp", "Alignment",
         "Understanding of Notre-Dame du Haut Roman Catholic chapel in Ronchamp",
         "Curve", "Analysis")
-    //"Curve", "Primitive")
     //"The thesis for Istanbul Technical University", "The Facade Analysis")
     {
       //_base = new EntityBase();
@@ -152,7 +151,8 @@ namespace Itu.Library.Alignment
         
         foreach (var tempGeometry in tempGeometryList)
         {
-          compareList.AddGeometry(new CompareGeometry(geometry, tempGeometry));
+          var restList =  geometryList.Except(new List<PLGeometry>() { geometry, tempGeometry }).ToList() ;
+          compareList.AddGeometry(new CompareGeometry(geometry, tempGeometry, restList));
         }
       }
 

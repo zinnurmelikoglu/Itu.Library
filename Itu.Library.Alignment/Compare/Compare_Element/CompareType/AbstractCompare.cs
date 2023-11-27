@@ -40,6 +40,24 @@ namespace Itu.Library.Alignment.Compare
       return plDistance / (plDistance + Math.Abs(distance));
     }
 
+
+    //public virtual int CheckIfGeometryExists()
+    //{
+    
+    //}
+
+    /***************  Will be dealt with it later  ****************/
+
+      //public virtual double AlignmentStrength_()
+      //{
+
+      //  double maxDist, maxDistParamA, maxDistParamB;
+      //  double minDist, minDistParamA, minDistParamB;
+      //  CurveProxy.GetDistancesBetweenCurves(Element_First.Element.ToPolylineCurve(), Element_Second.Element.ToPolylineCurve(), TolerateVal, out maxDist, out maxDistParamA, out maxDistParamB, out minDist, out minDistParamA, out minDistParamB);
+
+      //  return minDist;
+      //}
+
     public virtual Line AlignmentDraw()
     {
       return new DrawAlignment(point_First, point_Second, TangentType).GenerateAlignmentLine();
