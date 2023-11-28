@@ -54,7 +54,7 @@ namespace Itu.Library.Alignment
       pManager.AddTextParameter("retFactor", "rF", "AlignmentFactor", GH_ParamAccess.item);
       pManager.AddCurveParameter("retLine", "rL", "Line List", GH_ParamAccess.list);
       pManager.AddTextParameter("retStrength", "rS", "Strength", GH_ParamAccess.list);
-      pManager.AddTextParameter("testOutput", "Out", "Output", GH_ParamAccess.item);
+      pManager.AddTextParameter("testOutput", "Out", "Output", GH_ParamAccess.list);
 
     }
 
@@ -142,7 +142,7 @@ namespace Itu.Library.Alignment
       List<Line> lineList = new List<Line>();
       List<Double> StrengthList = new List<Double>();
       List<PLGeometry> storageList = new List<PLGeometry>();
-      CompareList compareList = new CompareList();
+      CompareGeometryList compareList = new CompareGeometryList();
       foreach (var geometry in geometryList)
       {
         storageList.Add(geometry);
@@ -161,18 +161,21 @@ namespace Itu.Library.Alignment
       Compare method is called in the CompareList full of CompareGeometry
       lineList, StrenghtList and result are requested from CompareList IEnumerable Class by calling suitable methods giving matched geometry information
       */
-      compareList.compareList.ForEach(compare => { compare.Compare(); });  //Lets compare each geometry
+      compareList.compareGeometryList.ForEach(compare => { compare.Compare(); });  //Lets compare each geometry
 
       lineList = compareList.GetLineList();
-      StrengthList = compareList.GetAlignmentStrengthList();
+      StrengthList = compareList.GetAlignedStrengthList();
       double result = compareList.GetFactor();
+
+
+      var testOutputList = compareList.GetAlignedElementStatusList();
 
       #endregion
 
       DA.SetData("retFactor", result);
       DA.SetDataList("retLine", lineList);
       DA.SetDataList("retStrength", StrengthList );
-      DA.SetDataList("testOutput", geometryList);
+      DA.SetDataList("testOutput", testOutputList);
 
     }
 

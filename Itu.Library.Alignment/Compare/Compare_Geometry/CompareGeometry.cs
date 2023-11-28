@@ -1,5 +1,4 @@
-﻿using Itu.Library.Alignment.Compare;
-using Itu.Library.Alignment.DrawUp;
+﻿using Itu.Library.Alignment.DrawUp;
 using Itu.Library.Alignment.Element;
 using Itu.Library.Alignment.Geometry;
 using Rhino.Geometry;
@@ -13,29 +12,32 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace Itu.Library.Alignment.Compare
 {
-  internal class CompareGeometry
+    internal class CompareGeometry
   {
     public PLGeometry Geometry_First { get; set; }
     public PLGeometry Geometry_Second { get; set; }
-    public List<PLGeometry> Geometry_Rest { get; }
+    public List<PLGeometry> Geometry_Remain { get; }
     public List<PLGeometry> GeometryList { get; set; }
     List<PLElement> ElementList_First => Geometry_First.GetElementList();
     List<PLElement> ElementList_Second => Geometry_Second.GetElementList();
     List<AbstractCompare> AlignedElementList { get; set; }
+    public AlignedElementStatusList alignedElementStatusList { get; set; }
     public List<Line> LineList { get; set; }
     public List<Double> StrengthList { get; set; }
     public bool isAligned { get; set; }
     double factor => 0.5;
     double Intersect { get; set; }
 
-    public CompareGeometry(PLGeometry geometry_First, PLGeometry geometry_Second, List<PLGeometry> geometry_Rest)
+    public CompareGeometry(PLGeometry geometry_First, PLGeometry geometry_Second, List<PLGeometry> geometry_Remain)
     {
       Geometry_First = geometry_First;
       Geometry_Second = geometry_Second;
-      Geometry_Rest = geometry_Rest;
+      Geometry_Remain = geometry_Remain;
       LineList = new List<Line>();
       AlignedElementList = new List<AbstractCompare>();
       StrengthList = new List<Double>();
+
+      alignedElementStatusList = new AlignedElementStatusList();
 
       Intersect = 0.0;
       isAligned = false;
@@ -51,25 +53,21 @@ namespace Itu.Library.Alignment.Compare
         foreach (var temp in ElementList_Second)
         {
           CompareFactory compareFactory = new CompareFactory(element, temp);
-          AbstractCompare compare = compareFactory.CompareType();
+          AbstractCompare compareElement = compareFactory.CompareType();
 
-          if (compare.CompareElement())
+          if (compareElement.CompareElement()) //if is aligned
           {
-            AlignedElementList.Add(compare);
-            StrengthList.Add(compare.AlignmentStrength());
-            LineList.Add(compare.AlignmentDraw());
+            AlignedElementList.Add(compareElement);
+            //StrengthList.Add(compareElement.AlignmentStrength());
+            //LineList.Add(compareElement.AlignmentLine());
+
+            compareElement.GetIntersectGeometryList(Geometry_Remain);
+            var alignedStatus = compareElement.GetAlignedElementStatus();
+            alignedElementStatusList.AddAlignedElement(alignedStatus);
 
             Intersect += factor;
             isAligned = true;
 
-
-            Line line = compare.AlignmentDraw();
-            foreach (var rest in Geometry_Rest)
-            {
-              double neutral = 0.0;
-              CurveIntersections intersected = Intersection.CurveLine(rest.ToPolylineCurve(), line, neutral, neutral);
-
-            }
 
           }
         }

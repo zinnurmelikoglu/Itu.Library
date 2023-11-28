@@ -61,7 +61,7 @@ namespace Itu.Library.Alignment.Element
       return Math.Round(reference);
     }
 
-    internal List<PLGeometry> AlignedBy(CompareList compareList)
+    internal List<PLGeometry> AlignedBy(CompareGeometryList compareList)
     {
       return (List<PLGeometry>)compareList.Where(s => s.isAligned && s.Geometry_First.Intersect(this).Any()).Select(s => s.Geometry_Second)
       .Concat(compareList.Where(s => s.isAligned && s.Geometry_Second.Intersect(this).Any()).Select(s => s.Geometry_First)).ToList();

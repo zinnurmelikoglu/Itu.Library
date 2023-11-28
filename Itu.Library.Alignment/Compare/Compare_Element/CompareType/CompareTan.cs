@@ -13,7 +13,7 @@ namespace Itu.Library.Alignment.Compare
     public override PLElement Element_Second { get; set; }
     public override double TolerateVal { get; set; }
     public override TangentType TangentType => TangentType.Tangent;
-    public override bool isAligned { get; set; }
+    //public override bool isAligned { get; set; }
     //public override Point3d point_First { get;}
     //public override Point3d point_Second { get;}
 
@@ -30,31 +30,11 @@ namespace Itu.Library.Alignment.Compare
       double ref_Y_base = Element_First.Ref_Y;
       double ref_Y_temp = Element_Second.Ref_Y;
 
-      //return tanVal_base == tanVal_temp &&
-      //  (ref_X_base > (ref_X_temp - TolerateVal)) &&
-      //  ((ref_X_temp + TolerateVal) > ref_X_base) &&
-      //  (ref_Y_base > (ref_Y_temp - TolerateVal)) &&
-      //  ((ref_Y_temp + TolerateVal) > ref_Y_base) ? true : false;
-
       return isAligned = ((tanVal_base == tanVal_temp) &&
                         (Math.Abs(ref_X_base - ref_X_temp) <= TolerateVal) &&
                         (Math.Abs(ref_Y_base - ref_Y_temp) <= TolerateVal));
 
     }
-
-
-    //    public double AlignmentStrength()
-    //    {
-    //      var length_base = PLElement_Base.Element.Length;
-    //      var length_temp = PLElement_Temp.Element.Length;
-    //
-    //      Point3d basePoint = ((Polyline) PLElement_Base.Element).ClosestPoint(new Point3d(PLElement_Temp.PointFirst.X, PLElement_Base.PointFirst.Y, 0.0));
-    //      var disFirst = basePoint.DistanceTo(PLElement_Temp.PointFirst);
-    //      var disSecond = basePoint.DistanceTo(PLElement_Temp.PointSecond);
-    //
-    //      double distance = disFirst > disSecond ? disSecond : disFirst;
-    //      return (length_base + length_temp) / (length_base + length_temp + Math.Abs(distance));
-    //    }
 
   }
 }

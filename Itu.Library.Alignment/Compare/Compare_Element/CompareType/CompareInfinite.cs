@@ -14,7 +14,7 @@ namespace Itu.Library.Alignment.Compare
     public override PLElement Element_Second { get; set; }
     public override double TolerateVal { get; set; }
     public override TangentType TangentType => TangentType.Infinite;
-    public override bool isAligned { get; set; }
+    //public override bool isAligned { get; set; }
     //public override Point3d point_First { get; }
     //public override Point3d point_Second { get; }
 

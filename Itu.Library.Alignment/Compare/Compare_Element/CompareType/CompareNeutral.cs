@@ -15,7 +15,7 @@ namespace Itu.Library.Alignment.Compare
     public override PLElement Element_Second { get; set; }
     public override double TolerateVal { get; set; }
     public override TangentType TangentType => TangentType.Neutral;
-    public override bool isAligned { get; set; }
+    //public override bool isAligned { get; set; }
     //public override Point3d point_First { get;}
     //public override Point3d point_Second { get;}
 
@@ -33,7 +33,7 @@ namespace Itu.Library.Alignment.Compare
       return isAligned = ((tanVal_base == neutral && tanVal_temp == neutral) && (Math.Abs(ref_Y_base - ref_Y_temp) <= TolerateVal));
       
     }
-    //public override Line AlignmentDraw()
+    //public override Line AlignmentLine()
     //{
     //  //return new Line(point_First, point_Second, Element_First.TanType);
     //  return new DrawAlignment(point_First, point_Second, Element_First.TanType).GenerateAlignmentLine();
