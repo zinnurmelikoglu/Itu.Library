@@ -6,6 +6,7 @@ using Rhino.Geometry.Intersect;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -79,15 +80,21 @@ namespace Itu.Library.Alignment.Compare
         double neutral = 0.0;
         var intersect = Intersection.CurveLine(geometry.ToPolylineCurve(), line, neutral, neutral);
         if (intersect.Count > 0)
-          intersectGeometryList.Add(intersect);
+        {
+          //intersectGeometryList.Add(intersect);
+
+          Point3d intersectPoint = intersect[0].PointA;
+          var distanceMax = line.MaximumDistanceTo(intersectPoint);
+          var length = line.Length;
+
+          if (length >= distanceMax)
+            intersectGeometryList.Add(intersect);
+        }
 
       }
 
       return _AlignedElementStatus.IntersectGeometryList = intersectGeometryList;
     }
-    //public int GetIntersectGeometryCount()=> IntersectGeometryList.Count;
-
     
-
   }
 }

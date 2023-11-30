@@ -42,6 +42,7 @@ namespace Itu.Library.Alignment
 
       pManager.AddCurveParameter("curveList", "cL", "Curve for analysis", GH_ParamAccess.list);
       pManager.AddRectangleParameter("area", "ar", "A rectancgle draw a border of the facade", GH_ParamAccess.item, new Rectangle3d(Plane.WorldXY, 800.0, 500.0));
+      pManager.AddNumberParameter("curveNumber", "cN", "Curve number for analysis", GH_ParamAccess.item);
 
     }
 
@@ -54,7 +55,7 @@ namespace Itu.Library.Alignment
       pManager.AddTextParameter("retFactor", "rF", "AlignmentFactor", GH_ParamAccess.item);
       pManager.AddCurveParameter("retLine", "rL", "Line List", GH_ParamAccess.list);
       pManager.AddTextParameter("retStrength", "rS", "Strength", GH_ParamAccess.list);
-      pManager.AddTextParameter("testOutput", "Out", "Output", GH_ParamAccess.list);
+      pManager.AddTextParameter("retIntersect", "rI", "Intersect", GH_ParamAccess.list);
 
     }
 
@@ -141,8 +142,10 @@ namespace Itu.Library.Alignment
 
       List<Line> lineList = new List<Line>();
       List<Double> StrengthList = new List<Double>();
+      List<int> IntersectList = new List<int>();
       List<PLGeometry> storageList = new List<PLGeometry>();
       CompareGeometryList compareList = new CompareGeometryList();
+
       foreach (var geometry in geometryList)
       {
         storageList.Add(geometry);
@@ -165,17 +168,18 @@ namespace Itu.Library.Alignment
 
       lineList = compareList.GetLineList();
       StrengthList = compareList.GetAlignedStrengthList();
+      IntersectList = compareList.GetIntersectGeometryCount();
       double result = compareList.GetFactor();
 
 
-      var testOutputList = compareList.GetAlignedElementStatusList();
+      //var testOutputList = compareList.GetAlignedElementStatusList();
 
       #endregion
 
       DA.SetData("retFactor", result);
       DA.SetDataList("retLine", lineList);
       DA.SetDataList("retStrength", StrengthList );
-      DA.SetDataList("testOutput", testOutputList);
+      DA.SetDataList("retIntersect", IntersectList);
 
     }
 

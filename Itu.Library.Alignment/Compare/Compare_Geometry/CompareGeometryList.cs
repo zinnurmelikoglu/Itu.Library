@@ -67,6 +67,12 @@ namespace Itu.Library.Alignment.Compare
 
     }
 
+    public List<int> GetIntersectGeometryCount()
+    {
+      //compareGeometryList.ForEach(m => { intersect += m.GetIntersectFactor(); });
+      return (List<int>)compareGeometryList.Where(s => s.isAligned).SelectMany(s => s.alignedElementStatusList).Select(s => s.IntersectGeometryCount).ToList();
+      
+    }
 
   }
 }
