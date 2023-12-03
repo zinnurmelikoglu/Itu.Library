@@ -5,12 +5,11 @@ using Itu.Library.Alignment.DrawUp;
 using Itu.Library.Alignment.Element;
 using Itu.Library.Alignment.Geometry;
 using Itu.Library.Alignment.Util;
-using Rhino.Collections;
+using Rhino.Display;
 using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 namespace Itu.Library.Alignment
 {
@@ -42,7 +41,7 @@ namespace Itu.Library.Alignment
 
       pManager.AddCurveParameter("curveList", "cL", "Curve for analysis", GH_ParamAccess.list);
       pManager.AddRectangleParameter("area", "ar", "A rectancgle draw a border of the facade", GH_ParamAccess.item, new Rectangle3d(Plane.WorldXY, 800.0, 500.0));
-      pManager.AddNumberParameter("curveNumber", "cN", "Curve number for analysis", GH_ParamAccess.item);
+      //pManager.AddNumberParameter("curveNumber", "cN", "Curve number for analysis", GH_ParamAccess.item);
 
     }
 
@@ -56,6 +55,11 @@ namespace Itu.Library.Alignment
       pManager.AddCurveParameter("retLine", "rL", "Line List", GH_ParamAccess.list);
       pManager.AddTextParameter("retStrength", "rS", "Strength", GH_ParamAccess.list);
       pManager.AddTextParameter("retIntersect", "rI", "Intersect", GH_ParamAccess.list);
+      pManager.AddTextParameter("retAlignedStatus", "rA", "Aligned Element Status", GH_ParamAccess.list);
+      pManager.AddTextParameter("retTag", "rT", "Text Tag", GH_ParamAccess.list);
+ 
+
+      //retAlignedStatusJson
 
     }
 
@@ -93,10 +97,12 @@ namespace Itu.Library.Alignment
 
       List<Point3d> point;
       List<PLGeometry> geometryList = new List<PLGeometry>();
+      int i = 0;
       foreach (var _curve in curveList)
       {
         point = new List<Point3d>();
         var controlPoint = _curve.ToNurbsCurve().Points;
+        var geometryName = i.ToString();
 
         foreach (var item in controlPoint)
         {
@@ -104,7 +110,8 @@ namespace Itu.Library.Alignment
 
         }
 
-        geometryList.Add(new PLGeometry(point));
+        geometryList.Add(new PLGeometry(point) { GeometryName = geometryName });
+        i++;
 
       }
 
@@ -154,8 +161,8 @@ namespace Itu.Library.Alignment
         
         foreach (var tempGeometry in tempGeometryList)
         {
-          var restList =  geometryList.Except(new List<PLGeometry>() { geometry, tempGeometry }).ToList() ;
-          compareList.AddGeometry(new CompareGeometry(geometry, tempGeometry, restList));
+          var remainList =  geometryList.Except(new List<PLGeometry>() { geometry, tempGeometry }).ToList() ;
+          compareList.AddGeometry(new CompareGeometry(geometry, tempGeometry, remainList));
         }
       }
 
@@ -171,8 +178,14 @@ namespace Itu.Library.Alignment
       IntersectList = compareList.GetIntersectGeometryCount();
       double result = compareList.GetFactor();
 
+      var alignedElementStatusList = compareList.GetAlignedElementStatusList();
 
-      //var testOutputList = compareList.GetAlignedElementStatusList();
+      List<String> textTag = new List<String>();
+      foreach (var item in compareList.compareGeometryList)
+      {
+        textTag.Add(item.Geometry_First.GeometryName);
+      }
+
 
       #endregion
 
@@ -180,6 +193,8 @@ namespace Itu.Library.Alignment
       DA.SetDataList("retLine", lineList);
       DA.SetDataList("retStrength", StrengthList );
       DA.SetDataList("retIntersect", IntersectList);
+      DA.SetDataList("retAlignedStatus", alignedElementStatusList);
+      DA.SetDataList("retTag", textTag);
 
     }
 

@@ -47,10 +47,11 @@ namespace Itu.Library.Alignment.Compare
 
     //CurveProxy.GetDistancesBetweenCurves may be used
     public abstract bool CompareElement();
-    public virtual AlignedElementStatus GetAlignedElementStatus()
+    public virtual AlignedElementStatus GetAlignedElementStatus(List<PLGeometry> geometryList)
     {
       AlignmentStrength();
       AlignmentLine();
+      GetIntersectGeometryList(geometryList);
       return _AlignedElementStatus;
     }
     protected virtual double AlignmentStrength()
@@ -70,7 +71,7 @@ namespace Itu.Library.Alignment.Compare
       return _AlignedElementStatus.AlignedLine = new DrawAlignment(point_First, point_Second, TangentType).GenerateAlignmentLine();
     }
 
-    public List<CurveIntersections> GetIntersectGeometryList(List<PLGeometry> geometryList)
+    protected List<CurveIntersections> GetIntersectGeometryList(List<PLGeometry> geometryList)
     {
       var intersectGeometryList = new List<CurveIntersections>();
       Line line = this.AlignmentLine();

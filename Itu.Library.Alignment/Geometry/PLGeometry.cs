@@ -3,6 +3,7 @@ using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,12 +11,12 @@ namespace Itu.Library.Alignment.Geometry
 {
   public class PLGeometry : Polyline
   {
-    //private List<PLGeometry> aligned;
     public bool isAligned { get; set; }
-    //public List<PLGeometry> AlignedGeometry {get{ return aligned;} set{ isAligned = true; aligned = value; }}
-    //public List<PLGeometry> AlignedGeometry { get { return aligned; } set { aligned = value; } }
     public List<PLGeometry> AlignedGeometry { get; set; }
     public List<PLElement> ElementList => GetElementList();
+    public String GeometryName { get { return geometryPrefix + "-" + geometryName; } set { geometryName = value; } }
+    String geometryName;
+    String geometryPrefix = "geometry";
 
     public PLGeometry(IEnumerable<Point3d> collection) : base(collection)
     {

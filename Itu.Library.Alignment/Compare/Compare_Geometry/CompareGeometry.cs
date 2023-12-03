@@ -16,8 +16,8 @@ namespace Itu.Library.Alignment.Compare
   {
     public PLGeometry Geometry_First { get; set; }
     public PLGeometry Geometry_Second { get; set; }
-    public List<PLGeometry> Geometry_Remain { get; }
-    public List<PLGeometry> GeometryList { get; set; }
+    public List<PLGeometry> Geometry_Remain { get; set; }
+    //public List<PLGeometry> GeometryList { get; set; }
     List<PLElement> ElementList_First => Geometry_First.GetElementList();
     List<PLElement> ElementList_Second => Geometry_Second.GetElementList();
     List<AbstractCompare> AlignedElementList { get; set; }
@@ -33,10 +33,9 @@ namespace Itu.Library.Alignment.Compare
       Geometry_First = geometry_First;
       Geometry_Second = geometry_Second;
       Geometry_Remain = geometry_Remain;
-      LineList = new List<Line>();
+      //LineList = new List<Line>();
+      //StrengthList = new List<Double>();
       AlignedElementList = new List<AbstractCompare>();
-      StrengthList = new List<Double>();
-
       alignedElementStatusList = new AlignedElementStatusList();
 
       Intersect = 0.0;
@@ -61,8 +60,8 @@ namespace Itu.Library.Alignment.Compare
             //StrengthList.Add(compareElement.AlignmentStrength());
             //LineList.Add(compareElement.AlignmentLine());
 
-            compareElement.GetIntersectGeometryList(Geometry_Remain);
-            var alignedStatus = compareElement.GetAlignedElementStatus();
+            //compareElement.GetIntersectGeometryList(Geometry_Remain);
+            var alignedStatus = compareElement.GetAlignedElementStatus(Geometry_Remain);
             alignedElementStatusList.AddAlignedElement(alignedStatus);
 
             Intersect += factor;
