@@ -51,7 +51,6 @@ namespace Itu.Library.Alignment.Compare
 
     public List<AlignedElementStatus> GetAlignedElementStatusList()
     {
-      List<Double> lineList = new List<Double>();
       //return (List<Double>)compareGeometryList.Where(s => s.isAligned).SelectMany(s => s.StrengthList).ToList();
       return (List<AlignedElementStatus>)compareGeometryList.Where(s => s.isAligned).SelectMany(s => s.alignedElementStatusList).ToList();
 

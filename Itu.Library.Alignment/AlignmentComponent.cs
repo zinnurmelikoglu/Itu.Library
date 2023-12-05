@@ -41,7 +41,7 @@ namespace Itu.Library.Alignment
 
       pManager.AddCurveParameter("curveList", "cL", "Curve for analysis", GH_ParamAccess.list);
       pManager.AddRectangleParameter("area", "ar", "A rectancgle draw a border of the facade", GH_ParamAccess.item, new Rectangle3d(Plane.WorldXY, 800.0, 500.0));
-      //pManager.AddNumberParameter("curveNumber", "cN", "Curve number for analysis", GH_ParamAccess.item);
+      pManager.AddIntegerParameter("curveNumber", "cN", "Curve number for analysis", GH_ParamAccess.item, -1);
 
     }
 
@@ -72,9 +72,11 @@ namespace Itu.Library.Alignment
     {
       List<Curve> curveList = new List<Curve>();
       Rectangle3d area = new Rectangle3d();
+      int curveNumber = -1;
 
       DA.GetDataList("curveList", curveList);
       DA.GetData("area", ref area);
+      DA.GetData("curveNumber", ref curveNumber);
 
       #region Specifying Facade Area
 
@@ -152,13 +154,14 @@ namespace Itu.Library.Alignment
       List<int> IntersectList = new List<int>();
       List<PLGeometry> storageList = new List<PLGeometry>();
       CompareGeometryList compareList = new CompareGeometryList();
+      var delegateGeometryList = curveNumber > -1 ? geometryList.Where(s => s.Intersect(geometryList[curveNumber]).Any()) : geometryList;
 
-      foreach (var geometry in geometryList)
+      foreach (var geometry in delegateGeometryList)
       {
         storageList.Add(geometry);
-        //var tempGeometryList = geometryList.Except(new List<PLGeometry>(){geometry}); It is marked so that matched geometry may be matched in the future
         var tempGeometryList = geometryList.Except(storageList);
-        
+        //var tempGeometryList = geometryList.Except(new List<PLGeometry>(){geometry}); It is marked so that matched geometry may be matched in the future
+
         foreach (var tempGeometry in tempGeometryList)
         {
           var remainList =  geometryList.Except(new List<PLGeometry>() { geometry, tempGeometry }).ToList() ;
@@ -181,9 +184,9 @@ namespace Itu.Library.Alignment
       var alignedElementStatusList = compareList.GetAlignedElementStatusList();
 
       List<String> textTag = new List<String>();
-      foreach (var item in compareList.compareGeometryList)
+      foreach (var item in geometryList)
       {
-        textTag.Add(item.Geometry_First.GeometryName);
+        textTag.Add(item.GeometryName);
       }
 
 
