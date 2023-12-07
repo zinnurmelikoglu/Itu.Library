@@ -52,6 +52,7 @@ namespace Itu.Library.Alignment.Compare
       AlignmentStrength();
       AlignmentLine();
       GetIntersectGeometryList(geometryList);
+      _AlignedElementStatus._AbstractCompare = this;
       return _AlignedElementStatus;
     }
     protected virtual double AlignmentStrength()
@@ -64,7 +65,7 @@ namespace Itu.Library.Alignment.Compare
 
       double distance = point_First.DistanceTo(point_Second);
       double plDistance = length_base + length_temp;
-      return _AlignedElementStatus.AlignedStrength = plDistance / (plDistance + Math.Abs(distance));
+      return _AlignedElementStatus.AlignedCloseness = plDistance / (plDistance + Math.Abs(distance));
     }
     protected virtual Line AlignmentLine()
     {

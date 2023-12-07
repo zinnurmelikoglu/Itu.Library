@@ -28,18 +28,8 @@ namespace Itu.Library.Alignment.Compare
 
     public AbstractCompare CompareType()
     {
-      double neutral = 0.0;
       //double tanVal = PLElement_Base.TanVal_Rounded;
       double tanVal = Math.Abs(Element_First.TanVal);
-      //double tanVal_Second = Math.Abs(Element_Second.TanVal);
-
-      //if (tanVal == neutral)
-      //  return new CompareNeutral(Element_First, Element_Second);
-      //else if (Double.IsInfinity(tanVal))
-      //  return new CompareInfinite(Element_First, Element_Second);
-      ////else if(tanVal > neutral || tanVal < neutral)
-      //else if (tanVal > neutral || tanVal < Double.PositiveInfinity)
-      //  return new CompareTan(Element_First, Element_Second);
       TangentType tanType = Element_First.TanType;
 
       if (tanType.Equals(TangentType.Neutral))

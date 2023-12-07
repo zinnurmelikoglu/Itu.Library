@@ -1,4 +1,5 @@
-﻿using Itu.Library.Alignment.Element;
+﻿using Itu.Library.Alignment.Compare;
+using Itu.Library.Alignment.Element;
 using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
@@ -43,5 +44,11 @@ namespace Itu.Library.Alignment.Geometry
 
       return elementList;
     }
+    //internal List<PLGeometry> AlignedBy(CompareGeometryList compareList)
+    //{
+    //  return (List<PLGeometry>)compareList.Where(s => s.isAligned && s.Geometry_First.Intersect(this).Any()).Select(s => s.Geometry_Second)
+    //  .Concat(compareList.Where(s => s.isAligned && s.Geometry_Second.Intersect(this).Any()).Select(s => s.Geometry_First)).ToList();
+    //}
+
   }
 }

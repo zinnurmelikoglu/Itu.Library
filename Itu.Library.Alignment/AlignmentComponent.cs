@@ -53,7 +53,7 @@ namespace Itu.Library.Alignment
       pManager.AddTextParameter("out", "out", "AlignmentFactor", GH_ParamAccess.item);
       pManager.AddTextParameter("retFactor", "rF", "AlignmentFactor", GH_ParamAccess.item);
       pManager.AddCurveParameter("retLine", "rL", "Line List", GH_ParamAccess.list);
-      pManager.AddTextParameter("retStrength", "rS", "Strength", GH_ParamAccess.list);
+      pManager.AddTextParameter("retCloseness", "rS", "Closeness", GH_ParamAccess.list);
       pManager.AddTextParameter("retIntersect", "rI", "Intersect", GH_ParamAccess.list);
       pManager.AddTextParameter("retAlignedStatus", "rA", "Aligned Element Status", GH_ParamAccess.list);
       pManager.AddTextParameter("retTag", "rT", "Text Tag", GH_ParamAccess.list);
@@ -150,7 +150,7 @@ namespace Itu.Library.Alignment
       */
 
       List<Line> lineList = new List<Line>();
-      List<Double> StrengthList = new List<Double>();
+      List<double> ClosenessList = new List<Double>();
       List<int> IntersectList = new List<int>();
       List<PLGeometry> storageList = new List<PLGeometry>();
       CompareGeometryList compareList = new CompareGeometryList();
@@ -172,12 +172,12 @@ namespace Itu.Library.Alignment
       /*
       CompareList is filled out with all matches regardless of whether they are aligned
       Compare method is called in the CompareList full of CompareGeometry
-      lineList, StrenghtList and result are requested from CompareList IEnumerable Class by calling suitable methods giving matched geometry information
+      lineList, ClosenessList and result are requested from CompareList IEnumerable Class by calling suitable methods giving matched geometry information
       */
       compareList.compareGeometryList.ForEach(compare => { compare.Compare(); });  //Lets compare each geometry
 
       lineList = compareList.GetLineList();
-      StrengthList = compareList.GetAlignedStrengthList();
+      ClosenessList = compareList.GetAlignedClosenessList();
       IntersectList = compareList.GetIntersectGeometryCount();
       double result = compareList.GetFactor();
 
@@ -194,7 +194,7 @@ namespace Itu.Library.Alignment
 
       DA.SetData("retFactor", result);
       DA.SetDataList("retLine", lineList);
-      DA.SetDataList("retStrength", StrengthList );
+      DA.SetDataList("retCloseness", ClosenessList );
       DA.SetDataList("retIntersect", IntersectList);
       DA.SetDataList("retAlignedStatus", alignedElementStatusList);
       DA.SetDataList("retTag", textTag);

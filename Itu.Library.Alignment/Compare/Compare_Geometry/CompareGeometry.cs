@@ -12,7 +12,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace Itu.Library.Alignment.Compare
 {
-    internal class CompareGeometry
+  public class CompareGeometry
   {
     public PLGeometry Geometry_First { get; set; }
     public PLGeometry Geometry_Second { get; set; }
@@ -45,7 +45,7 @@ namespace Itu.Library.Alignment.Compare
 
     public bool Compare()
     {
-    
+
       foreach (var element in ElementList_First)
       {
 
@@ -62,6 +62,8 @@ namespace Itu.Library.Alignment.Compare
 
             //compareElement.GetIntersectGeometryList(Geometry_Remain);
             var alignedStatus = compareElement.GetAlignedElementStatus(Geometry_Remain);
+            alignedStatus._CompareGeometry = this;
+
             alignedElementStatusList.AddAlignedElement(alignedStatus);
 
             Intersect += factor;
@@ -77,7 +79,6 @@ namespace Itu.Library.Alignment.Compare
     }
 
     public Double GetIntersectFactor() => Intersect;
-
 
   }
 }

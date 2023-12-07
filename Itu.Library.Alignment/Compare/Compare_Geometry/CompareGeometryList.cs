@@ -41,11 +41,11 @@ namespace Itu.Library.Alignment.Compare
 
     }
 
-    public List<Double> GetAlignedStrengthList()
+    public List<Double> GetAlignedClosenessList()
     {
       List<Double> lineList = new List<Double>();
       //return (List<Double>)compareGeometryList.Where(s => s.isAligned).SelectMany(s => s.StrengthList).ToList();
-      return (List<Double>)this.Where(s => s.isAligned).SelectMany(s => s.alignedElementStatusList.alignedElementList).Select(s => s.AlignedStrength).ToList();
+      return (List<Double>)this.Where(s => s.isAligned).SelectMany(s => s.alignedElementStatusList.alignedElementList).Select(s => s.AlignedCloseness).ToList();
 
     }
 
@@ -71,6 +71,11 @@ namespace Itu.Library.Alignment.Compare
       //compareGeometryList.ForEach(m => { intersect += m.GetIntersectFactor(); });
       return (List<int>)compareGeometryList.Where(s => s.isAligned).SelectMany(s => s.alignedElementStatusList).Select(s => s.IntersectGeometryCount).ToList();
       
+    }
+    internal List<PLGeometry> AlignedBy(PLGeometry geometry)
+    {
+      return (List<PLGeometry>)this.Where(s => s.isAligned && s.Geometry_First.Intersect(geometry).Any()).Select(s => s.Geometry_Second)
+      .Concat(this.Where(s => s.isAligned && s.Geometry_Second.Intersect(geometry).Any()).Select(s => s.Geometry_First)).ToList();
     }
 
   }

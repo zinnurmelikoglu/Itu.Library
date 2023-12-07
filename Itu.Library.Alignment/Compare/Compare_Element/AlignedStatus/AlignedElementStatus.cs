@@ -10,8 +10,10 @@ namespace Itu.Library.Alignment.Compare
 {
   public class AlignedElementStatus
   {
+    public CompareGeometry _CompareGeometry { get; set; }
+    public AbstractCompare _AbstractCompare { get; set; }
     public Line AlignedLine { get; set; }
-    public double AlignedStrength { get; set; }
+    public double AlignedCloseness { get; set; }
     public virtual List<CurveIntersections> IntersectGeometryList { get; set; }
     public int IntersectGeometryCount => IntersectGeometryList.Count;
     double factor = 0.0;
