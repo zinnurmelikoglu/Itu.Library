@@ -1,4 +1,5 @@
-﻿using Rhino.Geometry;
+﻿using Itu.Library.Alignment.Geometry;
+using Rhino.Geometry;
 using Rhino.Geometry.Intersect;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,9 @@ namespace Itu.Library.Alignment.Compare
 {
   public class AlignedElementStatus
   {
-    public CompareGeometry _CompareGeometry { get; set; }
-    public AbstractCompare _AbstractCompare { get; set; }
+    //public GeometryCouple AlignedGeometryCouple => new GeometryCouple() { Geometry_First = AlignedElementCouple.Element_First.Geometry, Geometry_Second = AlignedElementCouple.Element_Second.Geometry };
+    public GeometryCouple AlignedGeometryCouple { get; set; }
+    public ElementCouple AlignedElementCouple { get; set; }
     public Line AlignedLine { get; set; }
     public double AlignedCloseness { get; set; }
     public virtual List<CurveIntersections> IntersectGeometryList { get; set; }

@@ -13,5 +13,10 @@
     <PackageReference Include="Grasshopper" Version="7.13.21348.13001" IncludeAssets="compile;build" />
     <PackageReference Include="System.Text.Json" Version="8.0.0" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Compare\Compare_Element\CompareCloseness\" />
+    <Folder Include="Compare\Compare_Element\CompareInBetween\" />
+  </ItemGroup>
 
 </Project>

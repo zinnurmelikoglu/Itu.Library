@@ -39,7 +39,7 @@ namespace Itu.Library.Alignment.Geometry
 
       foreach (var item in lineArray)
       {
-        elementList.Add(new PLElement(item));
+        elementList.Add(new PLElement(item) { Geometry = this });
       }
 
       return elementList;

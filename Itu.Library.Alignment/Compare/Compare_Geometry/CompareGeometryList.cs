@@ -44,14 +44,14 @@ namespace Itu.Library.Alignment.Compare
     public List<Double> GetAlignedClosenessList()
     {
       List<Double> lineList = new List<Double>();
-      //return (List<Double>)compareGeometryList.Where(s => s.isAligned).SelectMany(s => s.StrengthList).ToList();
+      //return (List<Double>)compareGeometryList.Where(s => s.isAligned).SelectMany(s => s.ClosenessList).ToList();
       return (List<Double>)this.Where(s => s.isAligned).SelectMany(s => s.alignedElementStatusList.alignedElementList).Select(s => s.AlignedCloseness).ToList();
 
     }
 
     public List<AlignedElementStatus> GetAlignedElementStatusList()
     {
-      //return (List<Double>)compareGeometryList.Where(s => s.isAligned).SelectMany(s => s.StrengthList).ToList();
+      //return (List<Double>)compareGeometryList.Where(s => s.isAligned).SelectMany(s => s.ClosenessList).ToList();
       return (List<AlignedElementStatus>)compareGeometryList.Where(s => s.isAligned).SelectMany(s => s.alignedElementStatusList).ToList();
 
     }

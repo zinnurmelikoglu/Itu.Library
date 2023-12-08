@@ -164,7 +164,7 @@ namespace Itu.Library.Alignment
 
         foreach (var tempGeometry in tempGeometryList)
         {
-          var remainList =  geometryList.Except(new List<PLGeometry>() { geometry, tempGeometry }).ToList() ;
+          var remainList =  geometryList.Except(new List<PLGeometry>() { geometry, tempGeometry }).ToList();
           compareList.AddGeometry(new CompareGeometry(geometry, tempGeometry, remainList));
         }
       }

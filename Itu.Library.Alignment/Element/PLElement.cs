@@ -12,6 +12,7 @@ namespace Itu.Library.Alignment.Element
   public class PLElement : Polyline
   {
     public Polyline Element { get; set; }
+    public PLGeometry Geometry { get; set; }
     public List<PLCoordinate> Coord { get; set; }
     public List<Point3d> PointList { get; set; }
 

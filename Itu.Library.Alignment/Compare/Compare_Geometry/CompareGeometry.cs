@@ -23,7 +23,7 @@ namespace Itu.Library.Alignment.Compare
     List<AbstractCompare> AlignedElementList { get; set; }
     public AlignedElementStatusList alignedElementStatusList { get; set; }
     public List<Line> LineList { get; set; }
-    public List<Double> StrengthList { get; set; }
+    public List<Double> ClosenessList { get; set; }
     public bool isAligned { get; set; }
     double factor => 0.5;
     double Intersect { get; set; }
@@ -34,7 +34,7 @@ namespace Itu.Library.Alignment.Compare
       Geometry_Second = geometry_Second;
       Geometry_Remain = geometry_Remain;
       //LineList = new List<Line>();
-      //StrengthList = new List<Double>();
+      //ClosenessList = new List<Double>();
       AlignedElementList = new List<AbstractCompare>();
       alignedElementStatusList = new AlignedElementStatusList();
 
@@ -57,12 +57,23 @@ namespace Itu.Library.Alignment.Compare
           if (compareElement.CompareElement()) //if is aligned
           {
             AlignedElementList.Add(compareElement);
-            //StrengthList.Add(compareElement.AlignmentStrength());
+            //ClosenessList.Add(compareElement.AlignmentCloseness());
             //LineList.Add(compareElement.AlignmentLine());
 
+            //Aligment Status buranin uzerinden dolacaktir
             //compareElement.GetIntersectGeometryList(Geometry_Remain);
-            var alignedStatus = compareElement.GetAlignedElementStatus(Geometry_Remain);
-            alignedStatus._CompareGeometry = this;
+            var alignedElementCouple = new ElementCouple() { Element_First = element, Element_Second = temp };
+            var alignedGeometryCouple = new GeometryCouple() { Geometry_First = Geometry_First, Geometry_Second = Geometry_Second, Geometry_Remain = Geometry_Remain };
+
+            var alignedElementStatus = new AlignedElementStatus() { AlignedElementCouple = alignedElementCouple, AlignedGeometryCouple = alignedGeometryCouple };
+            
+
+
+
+            var alignedStatus = compareElement.GetAlignedElementStatus();
+            alignedStatus.AlignedElementCouple = new ElementCouple() { Element_First = element, Element_Second = temp };
+
+            
 
             alignedElementStatusList.AddAlignedElement(alignedStatus);
 

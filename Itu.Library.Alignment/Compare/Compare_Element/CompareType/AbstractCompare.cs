@@ -25,7 +25,7 @@ namespace Itu.Library.Alignment.Compare
       {
         if (value)
         {
-          AlignmentStrength();
+          AlignmentCloseness();
           AlignmentLine();
         }
         _isAligned = value;
@@ -47,15 +47,15 @@ namespace Itu.Library.Alignment.Compare
 
     //CurveProxy.GetDistancesBetweenCurves may be used
     public abstract bool CompareElement();
-    public virtual AlignedElementStatus GetAlignedElementStatus(List<PLGeometry> geometryList)
+    public virtual AlignedElementStatus GetAlignedElementStatus()
     {
-      AlignmentStrength();
+      AlignmentCloseness();
       AlignmentLine();
-      GetIntersectGeometryList(geometryList);
-      _AlignedElementStatus._AbstractCompare = this;
+      //GetIntersectGeometryList(geometryList);
+      _AlignedElementStatus.AlignedElementCouple = new ElementCouple() { Element_First = Element_First, Element_Second = Element_Second };
       return _AlignedElementStatus;
     }
-    protected virtual double AlignmentStrength()
+    protected virtual double AlignmentCloseness()
     {
       var length_base = Element_First.Element.Length;
       var length_temp = Element_Second.Element.Length;
@@ -67,36 +67,36 @@ namespace Itu.Library.Alignment.Compare
       double plDistance = length_base + length_temp;
       return _AlignedElementStatus.AlignedCloseness = plDistance / (plDistance + Math.Abs(distance));
     }
-    protected virtual Line AlignmentLine()
+    public virtual Line AlignmentLine()
     {
       return _AlignedElementStatus.AlignedLine = new DrawAlignment(point_First, point_Second, TangentType).GenerateAlignmentLine();
     }
 
-    protected List<CurveIntersections> GetIntersectGeometryList(List<PLGeometry> geometryList)
-    {
-      var intersectGeometryList = new List<CurveIntersections>();
-      Line line = this.AlignmentLine();
+    //protected List<CurveIntersections> GetIntersectGeometryList(List<PLGeometry> geometryList)
+    //{
+    //  var intersectGeometryList = new List<CurveIntersections>();
+    //  Line line = this.AlignmentLine();
       
-      foreach (var geometry in geometryList)
-      {
-        double neutral = 0.0;
-        var intersect = Intersection.CurveLine(geometry.ToPolylineCurve(), line, neutral, neutral);
-        if (intersect.Count > 0)
-        {
-          //intersectGeometryList.Add(intersect);
+    //  foreach (var geometry in geometryList)
+    //  {
+    //    double neutral = 0.0;
+    //    var intersect = Intersection.CurveLine(geometry.ToPolylineCurve(), line, neutral, neutral);
+    //    if (intersect.Count > 0)
+    //    {
+    //      //intersectGeometryList.Add(intersect);
 
-          Point3d intersectPoint = intersect[0].PointA;
-          var distanceMax = line.MaximumDistanceTo(intersectPoint);
-          var length = line.Length;
+    //      Point3d intersectPoint = intersect[0].PointA;
+    //      var distanceMax = line.MaximumDistanceTo(intersectPoint);
+    //      var length = line.Length;
 
-          if (length >= distanceMax)
-            intersectGeometryList.Add(intersect);
-        }
+    //      if (length >= distanceMax)
+    //        intersectGeometryList.Add(intersect);
+    //    }
 
-      }
+    //  }
 
-      return _AlignedElementStatus.IntersectGeometryList = intersectGeometryList;
-    }
+    //  return _AlignedElementStatus.IntersectGeometryList = intersectGeometryList;
+    //}
     
   }
 }
