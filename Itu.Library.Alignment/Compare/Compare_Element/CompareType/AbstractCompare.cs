@@ -1,14 +1,5 @@
-﻿using Itu.Library.Alignment.DrawUp;
-using Itu.Library.Alignment.Element;
-using Itu.Library.Alignment.Geometry;
+﻿using Itu.Library.Alignment.Element;
 using Rhino.Geometry;
-using Rhino.Geometry.Intersect;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Itu.Library.Alignment.Compare
 {
@@ -21,15 +12,7 @@ namespace Itu.Library.Alignment.Compare
     public virtual bool isAligned
     {
       get { return _isAligned; }
-      set
-      {
-        if (value)
-        {
-          //AlignmentCloseness();
-          //AlignmentLine();
-        }
-        _isAligned = value;
-      }
+      set { _isAligned = value; }
     }
     private bool _isAligned;
     public virtual Point3d point_First => Element_First.Element.ClosestPoint(Element_Second.PointFirst);

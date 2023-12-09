@@ -17,8 +17,8 @@ namespace Itu.Library.Alignment.Compare
     public ElementCouple AlignedElementCouple { get; set; }
     public Line AlignedLine => new LineProp(AlignedElementCouple).AlignmentLine();
     public double AlignedCloseness => new ClosenessProp(AlignedElementCouple).AlignmentCloseness();
-    public List<CurveIntersections> IntersectGeometryList => new InBetweenProp(AlignedElementCouple).GetIntersectGeometryList();
-    public int IntersectGeometryCount { get { var intersectGeometryList = IntersectGeometryList; return intersectGeometryList.Count; } }
+    public List<CurveIntersections> InBetweenGeometryList => new InBetweenProp(AlignedElementCouple).GetInBetweenGeometryList();
+    public int InBetweenGeometryCount { get { var inBetweenGeometryList = InBetweenGeometryList; return inBetweenGeometryList.Count; } }
     public AlignedElementStatus(ElementCouple alignedElementCouple) => AlignedElementCouple = alignedElementCouple;
 
   }

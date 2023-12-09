@@ -12,13 +12,13 @@ namespace Itu.Library.Alignment.Compare
 {
   internal class InBetweenProp:CommonProp
   {
-    List<CurveIntersections> IntersectGeometryList { get; set; }
+    List<CurveIntersections> InBetweenGeometryList { get; set; }
     //ElementCouple _ElementCouple { get; }
     public InBetweenProp(ElementCouple elementCouple):base (elementCouple) => _ElementCouple = elementCouple;
 
-    public List<CurveIntersections> GetIntersectGeometryList()
+    public List<CurveIntersections> GetInBetweenGeometryList()
     {
-      IntersectGeometryList = new List<CurveIntersections>();
+      InBetweenGeometryList = new List<CurveIntersections>();
       var geometryCouple = _ElementCouple.GetGeometryCouple();
       var remainGeometry = geometryCouple.Geometry_Remain;
       Line line = _ElementCouple.AlignmentLine;
@@ -34,14 +34,14 @@ namespace Itu.Library.Alignment.Compare
           var length = line.Length;
 
           if (length >= distanceMax)
-            IntersectGeometryList.Add(intersect);
+            InBetweenGeometryList.Add(intersect);
         }
 
       }
 
-      return IntersectGeometryList;
+      return InBetweenGeometryList;
     }
-    public int IntersectGeometryCount => IntersectGeometryList.Count;
+    public int InBetweenGeometryCount => InBetweenGeometryList.Count;
 
   }
 }

@@ -10,12 +10,13 @@ using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Itu.Library.Alignment
 {
-    public class AlignmentComponent : GH_Component
+  public class AlignmentComponent : GH_Component
   {
-    //EntityBase _base { get; set; }
+    public AlignedElementStatusList _AlignedElementStatusList { get; set; }
 
     /// <summary>
     /// Each implementation of GH_Component must provide a public 
@@ -27,7 +28,7 @@ namespace Itu.Library.Alignment
     public AlignmentComponent()
       : base("AlignmentComp", "Alignment",
         "Understanding of Notre-Dame du Haut Roman Catholic chapel in Ronchamp",
-        "Curve", "Analysis")
+        "Curve", "Alignment")
     //"The thesis for Istanbul Technical University", "The Facade Analysis")
     {
       //_base = new EntityBase();
@@ -57,7 +58,7 @@ namespace Itu.Library.Alignment
       pManager.AddTextParameter("retIntersect", "rI", "Intersect", GH_ParamAccess.list);
       pManager.AddTextParameter("retAlignedStatus", "rA", "Aligned Element Status", GH_ParamAccess.list);
       pManager.AddTextParameter("retTag", "rT", "Text Tag", GH_ParamAccess.list);
- 
+
 
       //retAlignedStatusJson
 
@@ -70,6 +71,7 @@ namespace Itu.Library.Alignment
     /// to store data in output parameters.</param>
     protected override void SolveInstance(IGH_DataAccess DA)
     {
+      _AlignedElementStatusList = new AlignedElementStatusList();
       List<Curve> curveList = new List<Curve>();
       Rectangle3d area = new Rectangle3d();
       int curveNumber = -1;
@@ -117,7 +119,7 @@ namespace Itu.Library.Alignment
         i++;
 
       }
-      
+
       EntityBase.RemoveDictionary(dictName);
       EntityBase.SetValue(dictName, geometryList);
 
@@ -155,7 +157,7 @@ namespace Itu.Library.Alignment
 
       List<Line> lineList = new List<Line>();
       List<double> ClosenessList = new List<Double>();
-      List<int> IntersectList = new List<int>();
+      List<int> InBetweenList = new List<int>();
       List<PLGeometry> storageList = new List<PLGeometry>();
       CompareGeometryList compareList = new CompareGeometryList();
       var delegateGeometryList = curveNumber > -1 ? geometryList.Where(s => s.Intersect(geometryList[curveNumber]).Any()) : geometryList;
@@ -168,7 +170,7 @@ namespace Itu.Library.Alignment
 
         foreach (var tempGeometry in tempGeometryList)
         {
-          var remainList =  geometryList.Except(new List<PLGeometry>() { geometry, tempGeometry }).ToList();
+          var remainList = geometryList.Except(new List<PLGeometry>() { geometry, tempGeometry }).ToList();
           compareList.AddGeometry(new CompareGeometry(geometry, tempGeometry, remainList));
         }
       }
@@ -180,12 +182,14 @@ namespace Itu.Library.Alignment
       */
       compareList.compareGeometryList.ForEach(compare => { compare.Compare(); });  //Lets compare each geometry
 
-      lineList = compareList.GetLineList();
+
+      lineList = compareList.GetAlignedLineList();
       ClosenessList = compareList.GetAlignedClosenessList();
-      IntersectList = compareList.GetIntersectGeometryCount();
+      InBetweenList = compareList.GetInBetweenGeometryCount();
       double result = compareList.GetFactor();
 
       var alignedElementStatusList = compareList.GetAlignedElementStatusList();
+      _AlignedElementStatusList = alignedElementStatusList;
 
       List<String> textTag = new List<String>();
       foreach (var item in geometryList)
@@ -198,8 +202,8 @@ namespace Itu.Library.Alignment
 
       DA.SetData("retFactor", result);
       DA.SetDataList("retLine", lineList);
-      DA.SetDataList("retCloseness", ClosenessList );
-      DA.SetDataList("retIntersect", IntersectList);
+      DA.SetDataList("retCloseness", ClosenessList);
+      DA.SetDataList("retIntersect", InBetweenList);
       DA.SetDataList("retAlignedStatus", alignedElementStatusList);
       DA.SetDataList("retTag", textTag);
 

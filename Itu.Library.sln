@@ -5,6 +5,8 @@ VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Itu.Library.Alignment", "Itu.Library.Alignment\Itu.Library.Alignment.csproj", "{B3040F66-1C39-4A40-AA07-3C07E65C10AF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Itu.Library.Analysis", "Itu.Library.Analysis\Itu.Library.Analysis.csproj", "{FCC6B1B4-92AC-4772-851A-11BC1026D086}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{B3040F66-1C39-4A40-AA07-3C07E65C10AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3040F66-1C39-4A40-AA07-3C07E65C10AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3040F66-1C39-4A40-AA07-3C07E65C10AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCC6B1B4-92AC-4772-851A-11BC1026D086}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCC6B1B4-92AC-4772-851A-11BC1026D086}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCC6B1B4-92AC-4772-851A-11BC1026D086}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCC6B1B4-92AC-4772-851A-11BC1026D086}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

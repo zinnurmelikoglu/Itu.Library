@@ -10,34 +10,42 @@ using System.Threading.Tasks;
 
 namespace Itu.Library.Alignment.Compare
 {
-    public class AlignedElementStatusList : IEnumerable<AlignedElementStatus>
+  public class AlignedElementStatusList : IEnumerable<AlignedElementStatus>
+  {
+    public List<AlignedElementStatus> _AlignedElementStatusList { get; set; }
+
+    public AlignedElementStatusList()
     {
-        public List<AlignedElementStatus> alignedElementStatusList { get; set; }
+      _AlignedElementStatusList = new List<AlignedElementStatus>();
+    }
 
-        public AlignedElementStatusList()
-        {
-            alignedElementStatusList = new List<AlignedElementStatus>();
-        }
+    public void AddAlignedElement(AlignedElementStatus alignedElement)
+    {
+      _AlignedElementStatusList.Add(alignedElement);
+    }
+    public IEnumerator<AlignedElementStatus> GetEnumerator()
+    {
+      return _AlignedElementStatusList.GetEnumerator();
+    }
 
-        public void AddAlignedElement(AlignedElementStatus alignedElement)
-        {
-            alignedElementStatusList.Add(alignedElement);
-        }
-        public IEnumerator<AlignedElementStatus> GetEnumerator()
-        {
-            return alignedElementStatusList.GetEnumerator();
-        }
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+      return GetEnumerator();
+    }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+    //internal List<PLElement> AlignedBy(PLElement element)
+    //{
+    //  return (List<PLElement>)this.Where(s => s._AbstractCompare.Element_First.Intersect(element).Any()).Select(s => s._AbstractCompare.Element_Second)
+    //  .Concat(this.Where(s => s._AbstractCompare.Element_Second.Intersect(element).Any()).Select(s => s._AbstractCompare.Element_First)).ToList();
+    //}
 
-        //internal List<PLElement> AlignedBy(PLElement element)
-        //{
-        //  return (List<PLElement>)this.Where(s => s._AbstractCompare.Element_First.Intersect(element).Any()).Select(s => s._AbstractCompare.Element_Second)
-        //  .Concat(this.Where(s => s._AbstractCompare.Element_Second.Intersect(element).Any()).Select(s => s._AbstractCompare.Element_First)).ToList();
-        //}
+    internal List<PLGeometry> AlignedBy(PLGeometry geometry)
+    {
+      return (List<PLGeometry>)this.Where(s => s.AlignedGeometryCouple.Geometry_First.Intersect(geometry).Any()).Select(s => s.AlignedGeometryCouple.Geometry_Second)
+      .Concat(this.Where(s => s.AlignedGeometryCouple.Geometry_Second.Intersect(geometry).Any()).Select(s => s.AlignedGeometryCouple.Geometry_First)).ToList();
+    }
+
+
 
   }
 }
