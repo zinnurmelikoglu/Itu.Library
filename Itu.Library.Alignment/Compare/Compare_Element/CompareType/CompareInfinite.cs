@@ -14,10 +14,6 @@ namespace Itu.Library.Alignment.Compare
     public override PLElement Element_Second { get; set; }
     public override double TolerateVal { get; set; }
     public override TangentType TangentType => TangentType.Infinite;
-    //public override bool isAligned { get; set; }
-    //public override Point3d point_First { get; }
-    //public override Point3d point_Second { get; }
-
     public CompareInfinite(PLElement element_First, PLElement element_Second) : base(element_First, element_Second)
     {
     }
@@ -32,12 +28,6 @@ namespace Itu.Library.Alignment.Compare
       return isAligned = ((Double.IsInfinity(tanVal_base) && (Double.IsInfinity(tanVal_temp))) && (Math.Abs(ref_X_base - ref_X_temp) <= TolerateVal));
 
     }
-    //public AlignedElement GetAlignedElement()
-    //{
-    //  return new AlignedElement(Element_First, Element_Second);
-    //}
-
-
 
   }
 }

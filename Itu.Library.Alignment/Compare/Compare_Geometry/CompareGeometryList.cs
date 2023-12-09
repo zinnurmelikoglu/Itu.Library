@@ -37,7 +37,7 @@ namespace Itu.Library.Alignment.Compare
     {
       List<Line> lineList = new List<Line>();
       //return (List<Line>)compareGeometryList.Where(s => s.isAligned).SelectMany(s => s.LineList).ToList();
-      return (List<Line>)this.Where(s => s.isAligned).SelectMany(s => s.alignedElementStatusList.alignedElementList).Select(s=> s.AlignedLine).ToList();
+      return (List<Line>)this.Where(s => s.isAligned).SelectMany(s => s._AlignedElementStatusList.alignedElementStatusList).Select(s=> s.AlignedLine).ToList();
 
     }
 
@@ -45,14 +45,14 @@ namespace Itu.Library.Alignment.Compare
     {
       List<Double> lineList = new List<Double>();
       //return (List<Double>)compareGeometryList.Where(s => s.isAligned).SelectMany(s => s.ClosenessList).ToList();
-      return (List<Double>)this.Where(s => s.isAligned).SelectMany(s => s.alignedElementStatusList.alignedElementList).Select(s => s.AlignedCloseness).ToList();
+      return (List<Double>)this.Where(s => s.isAligned).SelectMany(s => s._AlignedElementStatusList.alignedElementStatusList).Select(s => s.AlignedCloseness).ToList();
 
     }
 
     public List<AlignedElementStatus> GetAlignedElementStatusList()
     {
       //return (List<Double>)compareGeometryList.Where(s => s.isAligned).SelectMany(s => s.ClosenessList).ToList();
-      return (List<AlignedElementStatus>)compareGeometryList.Where(s => s.isAligned).SelectMany(s => s.alignedElementStatusList).ToList();
+      return (List<AlignedElementStatus>)compareGeometryList.Where(s => s.isAligned).SelectMany(s => s._AlignedElementStatusList).ToList();
 
     }
 
@@ -69,7 +69,7 @@ namespace Itu.Library.Alignment.Compare
     public List<int> GetIntersectGeometryCount()
     {
       //compareGeometryList.ForEach(m => { intersect += m.GetIntersectFactor(); });
-      return (List<int>)compareGeometryList.Where(s => s.isAligned).SelectMany(s => s.alignedElementStatusList).Select(s => s.IntersectGeometryCount).ToList();
+      return (List<int>)compareGeometryList.Where(s => s.isAligned).SelectMany(s => s._AlignedElementStatusList).Select(s => s.IntersectGeometryCount).ToList();
       
     }
     internal List<PLGeometry> AlignedBy(PLGeometry geometry)

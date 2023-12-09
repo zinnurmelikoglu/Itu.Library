@@ -12,20 +12,20 @@ namespace Itu.Library.Alignment.Compare
 {
     public class AlignedElementStatusList : IEnumerable<AlignedElementStatus>
     {
-        public List<AlignedElementStatus> alignedElementList { get; set; }
+        public List<AlignedElementStatus> alignedElementStatusList { get; set; }
 
         public AlignedElementStatusList()
         {
-            alignedElementList = new List<AlignedElementStatus>();
+            alignedElementStatusList = new List<AlignedElementStatus>();
         }
 
         public void AddAlignedElement(AlignedElementStatus alignedElement)
         {
-            alignedElementList.Add(alignedElement);
+            alignedElementStatusList.Add(alignedElement);
         }
         public IEnumerator<AlignedElementStatus> GetEnumerator()
         {
-            return alignedElementList.GetEnumerator();
+            return alignedElementStatusList.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -33,11 +33,11 @@ namespace Itu.Library.Alignment.Compare
             return GetEnumerator();
         }
 
-        internal List<PLElement> AlignedBy(PLElement element)
-        {
-          return (List<PLElement>)this.Where(s => s._AbstractCompare.Element_First.Intersect(element).Any()).Select(s => s._AbstractCompare.Element_Second)
-          .Concat(this.Where(s => s._AbstractCompare.Element_Second.Intersect(element).Any()).Select(s => s._AbstractCompare.Element_First)).ToList();
-        }
+        //internal List<PLElement> AlignedBy(PLElement element)
+        //{
+        //  return (List<PLElement>)this.Where(s => s._AbstractCompare.Element_First.Intersect(element).Any()).Select(s => s._AbstractCompare.Element_Second)
+        //  .Concat(this.Where(s => s._AbstractCompare.Element_Second.Intersect(element).Any()).Select(s => s._AbstractCompare.Element_First)).ToList();
+        //}
 
   }
 }

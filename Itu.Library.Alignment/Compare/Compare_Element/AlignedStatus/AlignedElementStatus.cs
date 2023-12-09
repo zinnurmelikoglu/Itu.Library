@@ -1,4 +1,6 @@
-﻿using Itu.Library.Alignment.Geometry;
+﻿using Itu.Library.Alignment.DrawUp;
+using Itu.Library.Alignment.Element;
+using Itu.Library.Alignment.Geometry;
 using Rhino.Geometry;
 using Rhino.Geometry.Intersect;
 using System;
@@ -11,14 +13,13 @@ namespace Itu.Library.Alignment.Compare
 {
   public class AlignedElementStatus
   {
-    //public GeometryCouple AlignedGeometryCouple => new GeometryCouple() { Geometry_First = AlignedElementCouple.Element_First.Geometry, Geometry_Second = AlignedElementCouple.Element_Second.Geometry };
-    public GeometryCouple AlignedGeometryCouple { get; set; }
+    public GeometryCouple AlignedGeometryCouple => AlignedElementCouple.GetGeometryCouple();
     public ElementCouple AlignedElementCouple { get; set; }
-    public Line AlignedLine { get; set; }
-    public double AlignedCloseness { get; set; }
-    public virtual List<CurveIntersections> IntersectGeometryList { get; set; }
-    public int IntersectGeometryCount => IntersectGeometryList.Count;
-    double factor = 0.0;
+    public Line AlignedLine => new LineProp(AlignedElementCouple).AlignmentLine();
+    public double AlignedCloseness => new ClosenessProp(AlignedElementCouple).AlignmentCloseness();
+    public List<CurveIntersections> IntersectGeometryList => new InBetweenProp(AlignedElementCouple).GetIntersectGeometryList();
+    public int IntersectGeometryCount { get { var intersectGeometryList = IntersectGeometryList; return intersectGeometryList.Count; } }
+    public AlignedElementStatus(ElementCouple alignedElementCouple) => AlignedElementCouple = alignedElementCouple;
 
   }
 }

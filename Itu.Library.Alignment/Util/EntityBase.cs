@@ -19,6 +19,8 @@ namespace Itu.Library.Alignment.Util
         _dict.Add(dictName, value);
 
     }
+    public static void RemoveDictionary(string dictName) => _dict.Remove(dictName);
+    public static void ClearDictionary() => _dict.Clear();
 
   }
 }

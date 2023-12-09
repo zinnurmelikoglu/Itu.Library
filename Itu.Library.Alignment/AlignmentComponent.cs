@@ -73,6 +73,7 @@ namespace Itu.Library.Alignment
       List<Curve> curveList = new List<Curve>();
       Rectangle3d area = new Rectangle3d();
       int curveNumber = -1;
+      var dictName = "GeometryList";
 
       DA.GetDataList("curveList", curveList);
       DA.GetData("area", ref area);
@@ -116,6 +117,9 @@ namespace Itu.Library.Alignment
         i++;
 
       }
+      
+      EntityBase.RemoveDictionary(dictName);
+      EntityBase.SetValue(dictName, geometryList);
 
       #endregion
 

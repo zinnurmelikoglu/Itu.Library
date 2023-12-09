@@ -44,19 +44,4 @@ namespace Itu.Library.Alignment.Compare
     }
   }
 
-  //public enum TangentType
-  //{
-  //  [Description("Neutral")]
-  //  Neutral,
-
-  //  [Description("Infinite")]
-  //  Infinite,
-
-  //  [Description("Tangent")]
-  //  Tangent,
-
-  //  [Description("Default")]
-  //  Default
-  //}
-
 }
