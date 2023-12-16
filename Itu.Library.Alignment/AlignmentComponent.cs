@@ -1,16 +1,24 @@
 using Grasshopper;
+using Grasshopper.Documentation;
 using Grasshopper.Kernel;
+using Grasshopper.Kernel.Data;
+using Grasshopper.Kernel.Types;
 using Itu.Library.Alignment.Compare;
 using Itu.Library.Alignment.DrawUp;
 using Itu.Library.Alignment.Element;
 using Itu.Library.Alignment.Geometry;
+using Itu.Library.Alignment.Prepare;
 using Itu.Library.Alignment.Util;
 using Rhino.Display;
+using Rhino.DocObjects.Custom;
 using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Net;
 using System.Security.Cryptography.X509Certificates;
+using System.Text.Json;
 
 namespace Itu.Library.Alignment
 {
@@ -42,7 +50,8 @@ namespace Itu.Library.Alignment
 
       pManager.AddCurveParameter("curveList", "cL", "Curve for analysis", GH_ParamAccess.list);
       pManager.AddRectangleParameter("area", "ar", "A rectancgle draw a border of the facade", GH_ParamAccess.item, new Rectangle3d(Plane.WorldXY, 800.0, 500.0));
-      pManager.AddIntegerParameter("curveNumber", "cN", "Curve number for analysis", GH_ParamAccess.item, -1);
+      int index = pManager.AddCurveParameter("curveBase", "cB", "Base curve for analysis", GH_ParamAccess.item);
+      this.Params.Input[index].Optional = true;
 
     }
 
@@ -52,7 +61,7 @@ namespace Itu.Library.Alignment
     protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
     {
       pManager.AddTextParameter("out", "out", "AlignmentFactor", GH_ParamAccess.item);
-      pManager.AddTextParameter("retFactor", "rF", "AlignmentFactor", GH_ParamAccess.item);
+      //pManager.AddTextParameter("retFactor", "rF", "AlignmentFactor", GH_ParamAccess.item);
       pManager.AddCurveParameter("retLine", "rL", "Line List", GH_ParamAccess.list);
       pManager.AddTextParameter("retCloseness", "rS", "Closeness", GH_ParamAccess.list);
       pManager.AddTextParameter("retIntersect", "rI", "Intersect", GH_ParamAccess.list);
@@ -73,13 +82,13 @@ namespace Itu.Library.Alignment
     {
       _AlignedElementStatusList = new AlignedElementStatusList();
       List<Curve> curveList = new List<Curve>();
+      Curve curveBase = Curve.CreateControlPointCurve(new List<Point3d>());
       Rectangle3d area = new Rectangle3d();
-      int curveNumber = -1;
       var dictName = "GeometryList";
 
       DA.GetDataList("curveList", curveList);
       DA.GetData("area", ref area);
-      DA.GetData("curveNumber", ref curveNumber);
+      DA.GetData("curveBase", ref curveBase);
 
       #region Specifying Facade Area
 
@@ -115,7 +124,7 @@ namespace Itu.Library.Alignment
 
         }
 
-        geometryList.Add(new PLGeometry(point) { GeometryName = geometryName });
+        geometryList.Add(new PLGeometry(point) { GeometryName = geometryName, isSelected = _curve != null ? new CurveEquality(_curve, curveBase).Equals() : false });
         i++;
 
       }
@@ -160,7 +169,7 @@ namespace Itu.Library.Alignment
       List<int> InBetweenList = new List<int>();
       List<PLGeometry> storageList = new List<PLGeometry>();
       CompareGeometryList compareList = new CompareGeometryList();
-      var delegateGeometryList = curveNumber > -1 ? geometryList.Where(s => s.Intersect(geometryList[curveNumber]).Any()) : geometryList;
+      var delegateGeometryList = geometryList.Where(s => s.isSelected).Any() ? geometryList.Where(s => s.isSelected) : geometryList;
 
       foreach (var geometry in delegateGeometryList)
       {
@@ -189,24 +198,29 @@ namespace Itu.Library.Alignment
       double result = compareList.GetFactor();
 
       var alignedElementStatusList = compareList.GetAlignedElementStatusList();
-      _AlignedElementStatusList = alignedElementStatusList;
-
-      List<String> textTag = new List<String>();
-      foreach (var item in geometryList)
-      {
-        textTag.Add(item.GeometryName);
-      }
-
-
+      _AlignedElementStatusList.AddRangeAlignedElement(alignedElementStatusList);
+   
       #endregion
+
+      //var alignedTreeTest = new PrepareDataTree(_AlignedElementStatusList).GetDataTree<object>();
+      var outputList =  _AlignedElementStatusList.Select(s => new OutputParam { AlignedLine = s.AlignedLine, AlignedCloseness = s.AlignedCloseness, InBetweenGeometryCount = s.InBetweenGeometryCount }).ToList();
+      var alignedTree = new PrepareDataTree<OutputParam>(outputList).GetDataTree();
 
       DA.SetData("retFactor", result);
       DA.SetDataList("retLine", lineList);
       DA.SetDataList("retCloseness", ClosenessList);
       DA.SetDataList("retIntersect", InBetweenList);
       DA.SetDataList("retAlignedStatus", alignedElementStatusList);
-      DA.SetDataList("retTag", textTag);
+      DA.SetDataTree(0, alignedTree);
+      DA.SetDataList("retTag", alignedTree.Branches);
 
+    }
+
+    protected class DataTreeObject
+    {
+      //public string GeometryName { get; set; }
+      public double Closeness { get; set; }
+      public int InBetweenCount { get; set; }
     }
 
     /// <summary>

@@ -33,19 +33,11 @@ namespace Itu.Library.Alignment.Compare
       return GetEnumerator();
     }
 
-    //public List<AlignedElementStatus> GetAlignedElementStatusList()
-    //{
-    //  //return (List<Double>)compareGeometryList.Where(s => s.isAligned).SelectMany(s => s.ClosenessList).ToList();
-    //  return (List<AlignedElementStatus>)compareGeometryList.Where(s => s.isAligned).SelectMany(s => s._AlignedElementStatusList).ToList();
-
-    //}
-
-    public AlignedElementStatusList GetAlignedElementStatusList()
+    public List<AlignedElementStatus> GetAlignedElementStatusList()
     {
-      //return (List<Double>)compareGeometryList.Where(s => s.isAligned).SelectMany(s => s.ClosenessList).ToList();
-      return (AlignedElementStatusList)compareGeometryList.Where(s => s.isAligned).SelectMany(s => s._AlignedElementStatusList);
-
+      return (List<AlignedElementStatus>)compareGeometryList.Where(s => s.isAligned).SelectMany(s => s._AlignedElementStatusList).ToList();
     }
+
     public List<Line> GetAlignedLineList()
     {
       List<Line> lineList = new List<Line>();

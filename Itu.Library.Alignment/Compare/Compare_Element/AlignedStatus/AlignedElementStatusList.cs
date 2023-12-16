@@ -23,6 +23,11 @@ namespace Itu.Library.Alignment.Compare
     {
       _AlignedElementStatusList.Add(alignedElement);
     }
+
+    public void AddRangeAlignedElement(List<AlignedElementStatus> alignedElement)
+    {
+      _AlignedElementStatusList.AddRange(alignedElement);
+    }
     public IEnumerator<AlignedElementStatus> GetEnumerator()
     {
       return _AlignedElementStatusList.GetEnumerator();

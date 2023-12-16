@@ -13,6 +13,7 @@ namespace Itu.Library.Alignment.Geometry
   public class PLGeometry : Polyline
   {
     public bool isAligned { get; set; }
+    public bool isSelected { get; set; }
     public List<PLGeometry> AlignedGeometry { get; set; }
     public List<PLElement> ElementList => GetElementList();
     public String GeometryName { get { return geometryPrefix + "-" + geometryName; } set { geometryName = value; } }
