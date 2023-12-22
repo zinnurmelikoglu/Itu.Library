@@ -7,7 +7,7 @@ namespace Itu.Library.Alignment.Compare
   {
     public virtual PLElement Element_First { get; set; }
     public virtual PLElement Element_Second { get; set; }
-    public virtual double TolerateVal { get; set; }
+    public virtual double TolerateVal => new TolerationSum(new ElementCouple(Element_First, Element_Second)).GetTolerationVal();
     public abstract TangentType TangentType { get; }
     public virtual bool isAligned
     {
@@ -24,7 +24,7 @@ namespace Itu.Library.Alignment.Compare
     {
       Element_First = element_First;
       Element_Second = element_Second;
-      TolerateVal = 5.0;
+
     }
     public abstract bool CompareElement();
     public virtual AlignedElementStatus GetAlignedElementStatus()

@@ -11,7 +11,6 @@ namespace Itu.Library.Alignment.Compare
   {
     public override PLElement Element_First { get; set; }
     public override PLElement Element_Second { get; set; }
-    public override double TolerateVal { get; set; }
     public override TangentType TangentType => TangentType.Tangent;
     public CompareTan(PLElement element_First, PLElement element_Second) : base(element_First, element_Second)
     {

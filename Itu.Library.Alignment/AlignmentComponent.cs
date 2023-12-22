@@ -206,7 +206,7 @@ namespace Itu.Library.Alignment
       var outputList =  _AlignedElementStatusList.Select(s => new OutputParam { AlignedLine = s.AlignedLine, AlignedCloseness = s.AlignedCloseness, InBetweenGeometryCount = s.InBetweenGeometryCount }).ToList();
       var alignedTree = new PrepareDataTree<OutputParam>(outputList).GetDataTree();
 
-      DA.SetData("retFactor", result);
+      //DA.SetData("retFactor", result);
       DA.SetDataList("retLine", lineList);
       DA.SetDataList("retCloseness", ClosenessList);
       DA.SetDataList("retIntersect", InBetweenList);
