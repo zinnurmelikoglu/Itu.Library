@@ -52,7 +52,7 @@ namespace Itu.Library.Alignment.Compare
       List<Double> lineList = new List<Double>();
       //return (List<Double>)compareGeometryList.Where(s => s.isAligned).SelectMany(s => s.ClosenessList).ToList();
       //return (List<Double>)this.Where(s => s.isAligned).SelectMany(s => s._AlignedElementStatusList._AlignedElementStatusList).Select(s => s.AlignedCloseness).ToList();
-      return (List<Double>)this.Where(s => s.isAligned).SelectMany(s => s._AlignedElementStatusList).Select(s => s.AlignedCloseness).ToList();
+      return (List<Double>)this.Where(s => s.isAligned).SelectMany(s => s._AlignedElementStatusList).Select(s => s.ClosenessFactor).ToList();
     }
 
     public List<int> GetInBetweenGeometryCount()

@@ -16,10 +16,17 @@ namespace Itu.Library.Alignment.Compare
     public GeometryCouple AlignedGeometryCouple => AlignedElementCouple.GetGeometryCouple();
     public ElementCouple AlignedElementCouple { get; set; }
     public Line AlignedLine => new LineProp(AlignedElementCouple).AlignmentLine();
-    public double AlignedCloseness => new ClosenessProp(AlignedElementCouple).AlignmentCloseness();
+    public double ClosenessFactor => new ClosenessProp(AlignedElementCouple).ClosenessFactor();
     public List<CurveIntersections> InBetweenGeometryList => new InBetweenProp(AlignedElementCouple).GetInBetweenGeometryList();
     public int InBetweenGeometryCount { get { var inBetweenGeometryList = InBetweenGeometryList; return inBetweenGeometryList.Count; } }
-    public AlignedElementStatus(ElementCouple alignedElementCouple) => AlignedElementCouple = alignedElementCouple;
+    public double InBetweenFactor => InBetween.InBetweenFactor();
+    public double Strength => new StrengthProp(AlignedElementCouple).AlignmentStrengt();
+    InBetweenProp InBetween { get; set; }
+    public AlignedElementStatus(ElementCouple alignedElementCouple)
+    {
+      AlignedElementCouple = alignedElementCouple;
+      InBetween = new InBetweenProp(AlignedElementCouple);
+    }
 
   }
 }

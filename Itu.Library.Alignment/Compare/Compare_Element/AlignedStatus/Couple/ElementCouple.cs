@@ -14,13 +14,13 @@ namespace Itu.Library.Alignment.Compare
     public PLElement Element_First { get; set; }
     public PLElement Element_Second { get; set; }
     public Line AlignmentLine { get; set; }
-
+    public LikelihoodFactorList _LikelihoodFactorList { get; set; }
     public ElementCouple(PLElement element_First, PLElement element_Second)
     {
       Element_First = element_First;
       Element_Second = element_Second;
+      _LikelihoodFactorList= new LikelihoodFactorList();
     }
-
     public GeometryCouple GetGeometryCouple()
     {
       var geometry_First = Element_First.Geometry;
@@ -31,5 +31,4 @@ namespace Itu.Library.Alignment.Compare
 
   }
 
-  
 }

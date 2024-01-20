@@ -179,8 +179,8 @@ namespace Itu.Library.Alignment
 
         foreach (var tempGeometry in tempGeometryList)
         {
-          var remainList = geometryList.Except(new List<PLGeometry>() { geometry, tempGeometry }).ToList();
-          compareList.AddGeometry(new CompareGeometry(geometry, tempGeometry, remainList));
+          //var remainList = geometryList.Except(new List<PLGeometry>() { geometry, tempGeometry }).ToList();
+          compareList.AddGeometry(new CompareGeometry(geometry, tempGeometry));
         }
       }
 
@@ -203,7 +203,7 @@ namespace Itu.Library.Alignment
       #endregion
 
       //var alignedTreeTest = new PrepareDataTree(_AlignedElementStatusList).GetDataTree<object>();
-      var outputList =  _AlignedElementStatusList.Select(s => new OutputParam { AlignedLine = s.AlignedLine, AlignedCloseness = s.AlignedCloseness, InBetweenGeometryCount = s.InBetweenGeometryCount }).ToList();
+      var outputList =  _AlignedElementStatusList.Select(s => new OutputParam { AlignedLine = s.AlignedLine, AlignedCloseness = s.ClosenessFactor, InBetweenGeometryCount = s.InBetweenGeometryCount }).ToList();
       var alignedTree = new PrepareDataTree<OutputParam>(outputList).GetDataTree();
 
       //DA.SetData("retFactor", result);

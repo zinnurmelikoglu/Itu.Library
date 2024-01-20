@@ -10,7 +10,7 @@ namespace Itu.Library.Alignment.Compare
   {
     double TolerateVal => 5.0;
     ElementCouple _ElementCouple { get; }
-    public double AlignedCloseness => new ClosenessProp(_ElementCouple).AlignmentCloseness();
+    public double AlignedCloseness => new ClosenessProp(_ElementCouple).ClosenessFactor();
     private const double conFact = 1.0;
     public TolerationSum( ElementCouple elementCouple) => _ElementCouple = elementCouple;
 

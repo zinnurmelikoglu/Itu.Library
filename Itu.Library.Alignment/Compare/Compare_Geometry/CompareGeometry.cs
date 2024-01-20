@@ -28,7 +28,7 @@ namespace Itu.Library.Alignment.Compare
     double factor => 0.5;
     double Intersect { get; set; }
 
-    public CompareGeometry(PLGeometry geometry_First, PLGeometry geometry_Second, List<PLGeometry> geometry_Remain)
+    public CompareGeometry(PLGeometry geometry_First, PLGeometry geometry_Second)
     {
       Geometry_First = geometry_First;
       Geometry_Second = geometry_Second;
@@ -42,9 +42,11 @@ namespace Itu.Library.Alignment.Compare
     public bool Compare()
     {
 
+      // Elements of the first geometry
       foreach (var element in ElementList_First)
       {
 
+        // Elements of the second geometry
         foreach (var temp in ElementList_Second)
         {
           CompareFactory compareFactory = new CompareFactory(element, temp);

@@ -10,11 +10,15 @@ using Itu.Library.Alignment.Util;
 
 namespace Itu.Library.Alignment.Compare
 {
-  internal class InBetweenProp:CommonProp
+  internal class InBetweenProp : CommonProp
   {
     List<CurveIntersections> InBetweenGeometryList { get; set; }
-    //ElementCouple _ElementCouple { get; }
-    public InBetweenProp(ElementCouple elementCouple):base (elementCouple) => _ElementCouple = elementCouple;
+    public InBetweenFactor _InBetweenFactor { get; set; }
+    public InBetweenProp(ElementCouple elementCouple) : base(elementCouple)
+    {
+      _ElementCouple = elementCouple;
+      _InBetweenFactor = new InBetweenFactor();
+    }
 
     public List<CurveIntersections> GetInBetweenGeometryList()
     {
@@ -43,5 +47,16 @@ namespace Itu.Library.Alignment.Compare
     }
     public int InBetweenGeometryCount => InBetweenGeometryList.Count;
 
+    public double InBetweenFactor()
+    {
+      var count = InBetweenGeometryCount;
+      var inBetweenFactor = Math.Max(1 - 0.4 * count, 0);
+      _InBetweenFactor.Factor = inBetweenFactor;
+      _ElementCouple._LikelihoodFactorList.AddLikelihoodFactor(_InBetweenFactor);
+
+      return inBetweenFactor;
+    }
+
   }
+
 }
