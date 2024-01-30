@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Itu.Library.Alignment.Compare
 {
-  internal class InBetweenFactor : LikelihoodFactor
+  internal class Likelihood
   {
-    public override string FactorName => "InBetweenFactor";
-    public override double Weight => 0.5;
+    double Factor { get; set; }
+    double Weight { get; set; }
   }
 }

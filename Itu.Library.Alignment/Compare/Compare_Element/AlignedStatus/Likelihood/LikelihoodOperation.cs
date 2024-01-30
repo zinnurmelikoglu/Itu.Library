@@ -9,57 +9,31 @@ namespace Itu.Library.Alignment.Compare
 {
     public class LikelihoodOperation
     {
-        public double Sigma { get; set; }
-        public double Weight { get; set; }
-        public LikelihoodOperation() { }
-
-        //public double CalculateLikelihood(double sigma, double weight, double inputVal)
-        //{
-
-        //    double likelihood = 0.0;
-        //    double result = Math.Exp(-1 / (2 * Math.Pow(sigma, 2)) * Math.Pow(weight, 2) * Math.Pow(y - 1, 2));
-
-        //    return likelihood;
-        //}
-
-        public double AndOperation(List<Likelihood> likelihoodList)
-        {
-          Sigma = 0.296;
-          Weight = 0.5;
-          //var retVal = likelihoodList.Select(s => s.LikelihoodVal).Aggregate((s, t) => s * t);
-          var retVal = likelihoodList.Select(s => s.GetLikelihoodVal(Sigma, Weight)).Aggregate((n, m) => n * m);
-
-          double andVal = 1.0;
-          foreach (var item in likelihoodList)
-          {
-            //andVal = item.LikelihoodVal * andVal;
-            andVal = item.GetLikelihoodVal(Sigma, Weight) * andVal;
-          }
-
-          return andVal;
-        }
-
+        //public double Sigma { get; set; }
+        double Sigma;
+        //public double Weight { get; set; }
+        
         public double AndOperation(LikelihoodFactorList likelihoodList)
         {
+
           Sigma = 0.296;
-          Weight = 0.5;
-          //var retVal = likelihoodList.Select(s => s.LikelihoodVal).Aggregate((s, t) => s * t);
-          var retVal = likelihoodList.Select(s => s.GetLikelihood(Sigma, Weight)).Aggregate((n, m) => n * m);
+          //Weight = 0.5;
+          var retVal = likelihoodList.Select(s => s.GetLikelihood(Sigma, s.Weight)).Aggregate((n, m) => n * m);
 
           double andVal = 1.0;
           foreach (var item in likelihoodList)
           {
-            //andVal = item.LikelihoodVal * andVal;
-            andVal = item.GetLikelihood(Sigma, Weight) * andVal;
+            var weight = item.Weight;
+            andVal = item.GetLikelihood(Sigma, weight) * andVal;
           }
 
           return andVal;
         }
 
-    public double OrOperation()
+        public double OrOperation()
         {
           Sigma = 0.296;
-          Weight = 0.5;
+          //Weight = 0.5;
 
           return 0.0;
         }

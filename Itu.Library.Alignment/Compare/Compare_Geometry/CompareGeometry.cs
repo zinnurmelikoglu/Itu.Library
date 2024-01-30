@@ -52,7 +52,7 @@ namespace Itu.Library.Alignment.Compare
           CompareFactory compareFactory = new CompareFactory(element, temp);
           AbstractCompare compareElement = compareFactory.CompareType();
 
-          if (compareElement.CompareElement()) //if is aligned
+          if (compareElement.CompareElement()) //if aligned
           {
             var alignedElementCouple = new ElementCouple(element, temp);
             var alignedStatus = new AlignedElementStatus(alignedElementCouple);

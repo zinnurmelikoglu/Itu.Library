@@ -14,10 +14,14 @@ namespace Itu.Library.Alignment.Compare
     public double AlignmentStrengt()
     {
 
+
+
       // LikelihoodFactor List<Likelihood>
       // closenessfactor
       // inBetweenFactor
       // AND operation
+
+
 
       var factorList = _ElementCouple._LikelihoodFactorList;
       return new LikelihoodOperation().AndOperation(factorList);

@@ -9,7 +9,6 @@ namespace Itu.Library.Alignment.Compare
   internal class ClosenessFactor : LikelihoodFactor
   {
     public override string FactorName => "ClosenessFactor";
-    //public override double Factor { get; set; }
-
+    public override double Weight => 0.5;
   }
 }

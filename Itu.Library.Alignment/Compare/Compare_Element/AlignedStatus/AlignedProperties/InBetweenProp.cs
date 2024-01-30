@@ -18,6 +18,7 @@ namespace Itu.Library.Alignment.Compare
     {
       _ElementCouple = elementCouple;
       _InBetweenFactor = new InBetweenFactor();
+      //GetInBetweenGeometryList();
     }
 
     public List<CurveIntersections> GetInBetweenGeometryList()

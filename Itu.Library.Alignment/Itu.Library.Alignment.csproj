@@ -8,6 +8,11 @@
     <TargetExt>.gha</TargetExt>
     <BaseOutputPath>bin</BaseOutputPath>
   </PropertyGroup>
+	
+  <ItemGroup>
+    <Compile Remove="Compare\Compare_Element\AlignedStatus\Likelihood\Factors\Likelihood.cs" />
+    <Compile Remove="Compare\Compare_Element\AlignedStatus\Likelihood\Likelihood.cs" />
+  </ItemGroup>
   
   <ItemGroup>
     <PackageReference Include="Grasshopper" Version="7.13.21348.13001" IncludeAssets="compile;build" />

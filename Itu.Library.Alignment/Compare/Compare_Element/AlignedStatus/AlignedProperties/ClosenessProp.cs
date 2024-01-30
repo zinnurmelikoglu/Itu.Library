@@ -21,7 +21,7 @@ namespace Itu.Library.Alignment.Compare
 
     }
 
-    public double ClosenessFactor()
+    public double AlignedCloseness()
     {
       var length_base = Element_First.Element.Length;
       var length_temp = Element_Second.Element.Length;
@@ -31,12 +31,17 @@ namespace Itu.Library.Alignment.Compare
 
       double distance = point_First.DistanceTo(point_Second);
       double plDistance = length_base + length_temp;
+      return plDistance / (plDistance + Math.Abs(distance));
+    }
 
-      var closenessFactor = plDistance / (plDistance + Math.Abs(distance));
+    public LikelihoodFactor ClosenessFactor()
+    {
+      var closenessFactor = AlignedCloseness();
       _ClosenessFactor.Factor = closenessFactor;
       _ElementCouple._LikelihoodFactorList.AddLikelihoodFactor(_ClosenessFactor);
-      
-      return closenessFactor;
+
+      return _ClosenessFactor;
+
     }
 
   }

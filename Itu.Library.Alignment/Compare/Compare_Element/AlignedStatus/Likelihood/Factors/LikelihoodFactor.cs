@@ -12,14 +12,14 @@ namespace Itu.Library.Alignment.Compare
     public virtual double Factor { get; set; }
     public double Likelihood { get; set; }
     public double Sigma { get; set; }
-    public double Weight { get; set; }
+    public virtual double Weight { get; set; }
 
     public virtual double GetLikelihood(double sigma, double weight)
     {
       Sigma = sigma;
       Weight = weight;
       return Likelihood = Math.Exp(-1 / (2 * Math.Pow(Sigma, 2)) * Math.Pow(Weight, 2) * Math.Pow(Factor - 1, 2));
-      
+
     }
 
   }
