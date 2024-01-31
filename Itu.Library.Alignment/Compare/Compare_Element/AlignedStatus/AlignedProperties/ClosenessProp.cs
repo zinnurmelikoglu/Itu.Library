@@ -17,6 +17,7 @@ namespace Itu.Library.Alignment.Compare
     public ClosenessProp(ElementCouple elementCouple) : base(elementCouple)
     {
       _ElementCouple = elementCouple;
+      IsFactor = true;
       _ClosenessFactor = new ClosenessFactor();
 
     }
@@ -41,6 +42,14 @@ namespace Itu.Library.Alignment.Compare
       _ElementCouple._LikelihoodFactorList.AddLikelihoodFactor(_ClosenessFactor);
 
       return _ClosenessFactor;
+
+    }
+
+    public override void PushFactor()
+    {
+      var closenessFactor = AlignedCloseness();
+      _ClosenessFactor.Factor = closenessFactor;
+      _ElementCouple._LikelihoodFactorList.AddLikelihoodFactor(_ClosenessFactor);
 
     }
 

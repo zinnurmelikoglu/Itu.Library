@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Itu.Library.Alignment.Compare
 {
-  internal class CommonProp
+  internal abstract class CommonProp
   {
     public ElementCouple _ElementCouple { get; set; }
     public PLElement Element_First => _ElementCouple.Element_First;
@@ -17,10 +17,16 @@ namespace Itu.Library.Alignment.Compare
     public virtual Point3d point_Second => Element_Second.Element.ClosestPoint(Element_First.PointFirst);
     public TangentType _TangentType => Element_First.TanType;
     public GeometryCouple _GemoetryCouple => _ElementCouple.GetGeometryCouple();
-    LikelihoodFactorList likelihoodFactorList { get; set; }
+    //LikelihoodFactorList likelihoodFactorList { get; set; }
     public LikelihoodFactor _LikelihoodFactor { get; set; }
-
-    public CommonProp(ElementCouple elementCouple) => _ElementCouple = elementCouple;
+    public virtual bool IsFactor { get; set; }
+    public CommonProp(ElementCouple elementCouple)
+    {
+      _ElementCouple = elementCouple;
+      IsFactor = false;
+    }
+    //public abstract CommonProp PushFactor();
+    public virtual void PushFactor() { }
 
   }
 }

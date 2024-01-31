@@ -20,5 +20,6 @@ namespace Itu.Library.Alignment.Compare
     public LineProp(ElementCouple elementCouple) : base(elementCouple) => _ElementCouple = elementCouple;
     public Line AlignmentLine() => _ElementCouple.AlignmentLine = new DrawAlignment(point_First, point_Second, _TangentType).GenerateAlignmentLine();
 
+    
   }
 }

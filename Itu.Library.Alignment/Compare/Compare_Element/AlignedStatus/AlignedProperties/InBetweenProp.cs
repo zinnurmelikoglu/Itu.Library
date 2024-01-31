@@ -12,13 +12,15 @@ namespace Itu.Library.Alignment.Compare
 {
   internal class InBetweenProp : CommonProp
   {
-    List<CurveIntersections> InBetweenGeometryList { get; set; }
+    public List<CurveIntersections> InBetweenGeometryList { get; set; }
     public InBetweenFactor _InBetweenFactor { get; set; }
+    public AbstractProp _AbstractProp { get; private set; }
     public InBetweenProp(ElementCouple elementCouple) : base(elementCouple)
     {
       _ElementCouple = elementCouple;
+      IsFactor = true;
       _InBetweenFactor = new InBetweenFactor();
-      //GetInBetweenGeometryList();
+      GetInBetweenGeometryList();
     }
 
     public List<CurveIntersections> GetInBetweenGeometryList()
@@ -56,6 +58,17 @@ namespace Itu.Library.Alignment.Compare
       _ElementCouple._LikelihoodFactorList.AddLikelihoodFactor(_InBetweenFactor);
 
       return inBetweenFactor;
+    }
+
+    //public override CommonProp PushFactor() => this;
+
+    public override void PushFactor()
+    {
+      var count = InBetweenGeometryCount;
+      var inBetweenFactor = Math.Max(1 - 0.4 * count, 0);
+      _InBetweenFactor.Factor = inBetweenFactor;
+      _ElementCouple._LikelihoodFactorList.AddLikelihoodFactor(_InBetweenFactor);
+
     }
 
   }
