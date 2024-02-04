@@ -35,17 +35,17 @@ namespace Itu.Library.Alignment.Compare
       return plDistance / (plDistance + Math.Abs(distance));
     }
 
-    public LikelihoodFactor ClosenessFactor()
-    {
-      var closenessFactor = AlignedCloseness();
-      _ClosenessFactor.Factor = closenessFactor;
-      _ElementCouple._LikelihoodFactorList.AddLikelihoodFactor(_ClosenessFactor);
+    //public LikelihoodFactor ClosenessFactor()
+    //{
+    //  var closenessFactor = AlignedCloseness();
+    //  _ClosenessFactor.Factor = closenessFactor;
+    //  _ElementCouple._LikelihoodFactorList.AddLikelihoodFactor(_ClosenessFactor);
 
-      return _ClosenessFactor;
+    //  return _ClosenessFactor;
 
-    }
+    //}
 
-    public override void PushFactor()
+    public override void AddLikelihoodFactor()
     {
       var closenessFactor = AlignedCloseness();
       _ClosenessFactor.Factor = closenessFactor;

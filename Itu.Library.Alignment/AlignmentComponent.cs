@@ -203,7 +203,7 @@ namespace Itu.Library.Alignment
       #endregion
 
       //var alignedTreeTest = new PrepareDataTree(_AlignedElementStatusList).GetDataTree<object>();
-      var outputList =  _AlignedElementStatusList.Select(s => new OutputParam { AlignedLine = s.AlignedLine, AlignedCloseness = s.AlignedCloseness, InBetweenGeometryCount = s.InBetweenGeometryCount }).ToList();
+      var outputList =  _AlignedElementStatusList.Select(s => new OutputParam { AlignedLine = s.AlignedLine, AlignedCloseness = s.AlignedCloseness, InBetweenFactor = s.InBetweenFactor, InBetweenGeometryCount = s.InBetweenGeometryCount, AlignedStrengt = s.AlignedStrength }).ToList();
       var alignedTree = new PrepareDataTree<OutputParam>(outputList).GetDataTree();
 
       //DA.SetData("retFactor", result);

@@ -15,55 +15,24 @@ namespace Itu.Library.Alignment.Compare
 {
   public class AlignedElementStatus
   {
-    public GeometryCouple AlignedGeometryCouple => AlignedElementCouple.GetGeometryCouple();
     public ElementCouple AlignedElementCouple { get; set; }
+    public GeometryCouple AlignedGeometryCouple => AlignedElementCouple.GetGeometryCouple();
     public Line AlignedLine => new LineProp(AlignedElementCouple).AlignmentLine();
     public double AlignedCloseness => new ClosenessProp(AlignedElementCouple).AlignedCloseness();
-    //public LikelihoodFactor ClosenessFactor => Closeness.ClosenessFactor();
-    
-    /*******
-     * 
-     * This section is remarked before
-     * 
-    //public List<CurveIntersections> InBetweenGeometryList => new InBetweenProp(AlignedElementCouple).GetInBetweenGeometryList();
-    //public int InBetweenGeometryCount { get { var inBetweenGeometryList = InBetweenGeometryList; return inBetweenGeometryList.Count; } }
-    ******/
-
-
-    //public List<CurveIntersections> InBetweenGeometryList => InBetween.InBetweenGeometryList;
+    public double InBetweenFactor => new InBetweenProp(AlignedElementCouple).InBetweenFactor();
     public int InBetweenGeometryCount => new InBetweenProp(AlignedElementCouple).InBetweenGeometryCount;
-    //public double InBetweenFactor => InBetween.InBetweenFactor();
     public double AlignedStrength => new StrengthProp(AlignedElementCouple).AlignmentStrengt();
-    //InBetweenProp InBetween { get; set; }
-    //ClosenessProp Closeness { get; set; }
-    //LineProp LineProp { get; set; }
     List<CommonProp> CommonPropList { get; set; }
 
     public AlignedElementStatus(ElementCouple alignedElementCouple)
     {
       AlignedElementCouple = alignedElementCouple;
-      //InBetween = new InBetweenProp(AlignedElementCouple);
-      //Closeness = new ClosenessProp(AlignedElementCouple);
-      //LineProp = new LineProp(AlignedElementCouple);
-
       CommonPropList = new PropList(AlignedElementCouple).GetPropList().Where(s => s.IsFactor == true).ToList();
       PushLikeloodFactors();
 
-
-      /*
-       * Tum CommonProplari Listeye topladiktan sonra IsFactoru true olanlari cagirarak onlardaki tekbir pushFactor ile Factoru AligmentElementCouple daki
-        LikelyhoodList'e cakmaya calisacagiz
-       */
-
     }
 
-    public void PushLikeloodFactors() => CommonPropList.ForEach(p => { p.PushFactor(); });
-    
-
-    //Push factor list to elementCouple 
-
-    //List<LikelihoodFactor> 
-    // Buradan object donmeli ve o objectlerin push yapan InBetweenFactor gibi methodlarini cagirmaliyim
+    public void PushLikeloodFactors() => CommonPropList.ForEach(p => { p.AddLikelihoodFactor(); });
 
   }
 }

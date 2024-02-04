@@ -25,8 +25,7 @@ namespace Itu.Library.Alignment.Compare
       _ElementCouple = elementCouple;
       IsFactor = false;
     }
-    //public abstract CommonProp PushFactor();
-    public virtual void PushFactor() { }
+    public virtual void AddLikelihoodFactor() { }
 
   }
 }

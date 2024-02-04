@@ -28,7 +28,11 @@ namespace Itu.Library.Alignment.Compare
       InBetweenGeometryList = new List<CurveIntersections>();
       var geometryCouple = _ElementCouple.GetGeometryCouple();
       var remainGeometry = geometryCouple.Geometry_Remain;
-      Line line = _ElementCouple.AlignmentLine;
+      //Line line = _ElementCouple.AlignmentLine;
+      Line line = new LineProp(_ElementCouple).AlignmentLine();
+
+      // Line calismiyooooor
+
 
       foreach (var geometry in remainGeometry)
       {
@@ -54,21 +58,15 @@ namespace Itu.Library.Alignment.Compare
     {
       var count = InBetweenGeometryCount;
       var inBetweenFactor = Math.Max(1 - 0.4 * count, 0);
-      _InBetweenFactor.Factor = inBetweenFactor;
-      _ElementCouple._LikelihoodFactorList.AddLikelihoodFactor(_InBetweenFactor);
+      //_InBetweenFactor.Factor = inBetweenFactor;
 
       return inBetweenFactor;
     }
 
-    //public override CommonProp PushFactor() => this;
-
-    public override void PushFactor()
+    public override void AddLikelihoodFactor()
     {
-      var count = InBetweenGeometryCount;
-      var inBetweenFactor = Math.Max(1 - 0.4 * count, 0);
-      _InBetweenFactor.Factor = inBetweenFactor;
+      _InBetweenFactor.Factor = InBetweenFactor();
       _ElementCouple._LikelihoodFactorList.AddLikelihoodFactor(_InBetweenFactor);
-
     }
 
   }

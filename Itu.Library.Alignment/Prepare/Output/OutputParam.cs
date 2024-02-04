@@ -11,7 +11,9 @@ namespace Itu.Library.Alignment.Prepare
   {
     public Line AlignedLine { get; set; }
     public double AlignedCloseness { get; set; }
+    public double InBetweenFactor { get; set; }
     public int InBetweenGeometryCount { get; set; }
+    public double AlignedStrengt { get; set; }
 
   }
 }
