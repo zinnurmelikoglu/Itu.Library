@@ -56,6 +56,16 @@ namespace Itu.Library.Alignment.Compare
           {
             var alignedElementCouple = new ElementCouple(element, temp);
             var alignedStatus = new AlignedElementStatus(alignedElementCouple);
+
+            //alignedStatus.AlignedStrength ==> likelihood
+
+            //GetAligned
+
+            //Bir elementin likelihood degerini diger elementlerde kazandigi likelihood degeriyle kiyaslanabilir
+
+            var asd = _AlignedElementStatusList.AlignedElementStatusByElement(element);
+            
+
             _AlignedElementStatusList.AddAlignedElement(alignedStatus);
 
             //Intersect += factor;

@@ -140,15 +140,15 @@ namespace Itu.Library.Alignment
       /*
       Every single (poly)line which is the part of main geometry is filled to ElementList
       */
+        /*
+        List<PLElement> ElementList = new List<PLElement>();
+        foreach (var geometry in geometryList)
+        {
+          var elementList = geometry.GetElementList();
+          ElementList.AddRange(elementList);
 
-      List<PLElement> ElementList = new List<PLElement>();
-      foreach (var geometry in geometryList)
-      {
-        var elementList = geometry.GetElementList();
-        ElementList.AddRange(elementList);
-
-      }
-
+        }
+        */
       #endregion
 
 

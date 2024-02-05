@@ -31,9 +31,6 @@ namespace Itu.Library.Alignment.Compare
       //Line line = _ElementCouple.AlignmentLine;
       Line line = new LineProp(_ElementCouple).AlignmentLine();
 
-      // Line calismiyooooor
-
-
       foreach (var geometry in remainGeometry)
       {
         double neutral = 0.0;

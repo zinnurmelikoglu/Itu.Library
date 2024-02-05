@@ -50,7 +50,25 @@ namespace Itu.Library.Alignment.Compare
       .Concat(this.Where(s => s.AlignedGeometryCouple.Geometry_Second.Intersect(geometry).Any()).Select(s => s.AlignedGeometryCouple.Geometry_First)).ToList();
     }
 
+    internal List<PLElement> AlignedBy(PLElement element)
+    {
+      return (List<PLElement>)this.Where(s => s.AlignedElementCouple.Element_First.Intersect(element).Any()).Select(s => s.AlignedElementCouple.Element_Second)
+      .Concat(this.Where(s => s.AlignedElementCouple.Element_Second.Intersect(element).Any()).Select(s => s.AlignedElementCouple.Element_First));
 
+    }
+
+    //internal List<PLGeometry> AlignedElementStatusByGeometry(PLGeometry geometry)
+    //{
+    //  return (List<PLGeometry>)this.Where(s => s.AlignedGeometryCouple.Geometry_First.Intersect(geometry).Any()).Select(s => s.AlignedGeometryCouple.Geometry_Second)
+    //  .Concat(this.Where(s => s.AlignedGeometryCouple.Geometry_Second.Intersect(geometry).Any()).Select(s => s.AlignedGeometryCouple.Geometry_First)).ToList();
+    //}
+
+    internal IEnumerable<AlignedElementStatus> AlignedElementStatusByElement(PLElement element)
+    {
+      return (IEnumerable<AlignedElementStatus>)this.Where(s => s.AlignedElementCouple.Element_First.Intersect(element).Any())
+      .Concat(this.Where(s => s.AlignedElementCouple.Element_Second.Intersect(element).Any()));
+
+    }
 
   }
 }
