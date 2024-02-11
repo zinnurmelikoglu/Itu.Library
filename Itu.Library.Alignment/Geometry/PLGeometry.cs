@@ -16,6 +16,7 @@ namespace Itu.Library.Alignment.Geometry
     public bool isSelected { get; set; }
     public List<PLGeometry> AlignedGeometry { get; set; }
     public List<PLElement> ElementList { get; }
+    public double Likelihood { get; set; }
     public String GeometryName { get { return geometryPrefix + "-" + geometryName; } set { geometryName = value; } }
     String geometryName;
     String geometryPrefix = "geometry";

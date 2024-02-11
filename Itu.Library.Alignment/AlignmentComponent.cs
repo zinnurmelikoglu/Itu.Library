@@ -1,6 +1,8 @@
+using Eto.Forms;
 using Grasshopper;
 using Grasshopper.Documentation;
 using Grasshopper.Kernel;
+using Grasshopper.Kernel.Components;
 using Grasshopper.Kernel.Data;
 using Grasshopper.Kernel.Types;
 using Itu.Library.Alignment.Compare;
@@ -9,6 +11,7 @@ using Itu.Library.Alignment.Element;
 using Itu.Library.Alignment.Geometry;
 using Itu.Library.Alignment.Prepare;
 using Itu.Library.Alignment.Util;
+using Rhino.ApplicationSettings;
 using Rhino.Display;
 using Rhino.DocObjects.Custom;
 using Rhino.Geometry;
@@ -26,6 +29,7 @@ namespace Itu.Library.Alignment
   public class AlignmentComponent : GH_Component
   {
     public AlignedElementStatusList _AlignedElementStatusList { get; set; }
+    public double AverageLikelihood { get; set; }
 
     /// <summary>
     /// Each implementation of GH_Component must provide a public 
@@ -61,6 +65,7 @@ namespace Itu.Library.Alignment
     /// </summary>
     protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
     {
+      pManager.AddTextParameter("retText", "rT", "Text", GH_ParamAccess.list);
       pManager.AddTextParameter("out", "out", "AlignmentFactor", GH_ParamAccess.item);
       //pManager.AddTextParameter("retFactor", "rF", "AlignmentFactor", GH_ParamAccess.item);
       pManager.AddCurveParameter("retLine", "rL", "Line List", GH_ParamAccess.list);
@@ -141,15 +146,15 @@ namespace Itu.Library.Alignment
       /*
       Every single (poly)line which is the part of main geometry is filled to ElementList
       */
-        /*
-        List<PLElement> ElementList = new List<PLElement>();
-        foreach (var geometry in geometryList)
-        {
-          var elementList = geometry.GetElementList();
-          ElementList.AddRange(elementList);
+      /*
+      List<PLElement> ElementList = new List<PLElement>();
+      foreach (var geometry in geometryList)
+      {
+        var elementList = geometry.GetElementList();
+        ElementList.AddRange(elementList);
 
-        }
-        */
+      }
+      */
       #endregion
 
 
@@ -170,7 +175,7 @@ namespace Itu.Library.Alignment
       List<int> InBetweenList = new List<int>();
       List<PLGeometry> storageList = new List<PLGeometry>();
       CompareGeometryList compareList = new CompareGeometryList();
-      var delegateGeometryList = geometryList.Where(s => s.isSelected).Any() ? geometryList.Where(s => s.isSelected) : geometryList;
+      var delegateGeometryList = geometryList.Where(s => s.isSelected).Any() ? geometryList.Where(s => s.isSelected).ToList() : geometryList;
 
       foreach (var geometry in delegateGeometryList)
       {
@@ -201,41 +206,49 @@ namespace Itu.Library.Alignment
       var alignedElementStatusList = compareList.GetAlignedElementStatusList();
       _AlignedElementStatusList.AddRangeAlignedElement(alignedElementStatusList);
 
+      #endregion
 
+      #region This code block assigns every geometry their calculated likelihood values
+
+      /*
+       * This code block assigns every geometry their calculated likelihood values
+       * and gives average likelihood value
+       */
+
+      var geometryLikelihood = new GeometryLikelihood((List<PLGeometry>)delegateGeometryList);
+      AverageLikelihood = geometryLikelihood.CalcGeometryLikelihood(_AlignedElementStatusList);
+
+      #endregion
+
+      Curve[] outline = new Curve[] { };
       foreach (var geometry in delegateGeometryList)
       {
 
-        //List<PLGeometry> test = _AlignedElementStatusList.AlignedBy(geometry);
+        var elementList = geometry.GetElements();
 
-        AlignedElementStatusList elementStatusList = new AlignedElementStatusList();
-        foreach (var element in geometry.ElementList)
+        foreach (var element in elementList)
         {
-          var elementStatusByElement = _AlignedElementStatusList.AlignedElementStatusByElement(element);
-          AlignedElementStatus elementStatus;
 
-          if (elementStatusByElement.Count > 0)
-          {
-            elementStatus = elementStatusByElement.Aggregate((i1, i2) => i1.AlignedStrength > i2.AlignedStrength ? i1 : i2);
-            elementStatusList.AddAlignedElement(elementStatus);
-          }
+          TextEntity likelihoodText = new TextEntity();
+          likelihoodText.PlainText = geometry.Likelihood.ToString();
+          likelihoodText.Plane = Plane.WorldXY;
+          likelihoodText.Justification = TextJustification.BottomLeft;
+          likelihoodText.TextHeight = 10;
 
-          
+          outline = likelihoodText.CreateCurves(likelihoodText.DimensionStyle, false);
 
         }
 
-        //List<PLGeometry> test = _AlignedElementStatusList.AlignedBy(geometry);
-
-
-
       }
-      
 
-   
-      #endregion
 
-      //var alignedTreeTest = new PrepareDataTree(_AlignedElementStatusList).GetDataTree<object>();
-      var outputList =  _AlignedElementStatusList.Select(s => new OutputParam { AlignedLine = s.AlignedLine, AlignedCloseness = s.AlignedCloseness, InBetweenFactor = s.InBetweenFactor, InBetweenGeometryCount = s.InBetweenGeometryCount, AlignedStrengt = s.AlignedStrength }).ToList();
+       //var alignedTreeTest = new PrepareDataTree(_AlignedElementStatusList).GetDataTree<object>();
+       var outputList =  _AlignedElementStatusList.Select(s => new OutputParam { AlignedLine = s.AlignedLine, AlignedCloseness = s.AlignedCloseness, InBetweenFactor = s.InBetweenFactor, InBetweenGeometryCount = s.InBetweenGeometryCount, AlignedStrengt = s.AlignedStrength }).ToList();
       var alignedTree = new PrepareDataTree<OutputParam>(outputList).GetDataTree();
+
+
+
+      DA.SetData("retText", outline);
 
       //DA.SetData("retFactor", result);
       DA.SetDataList("retLine", lineList);

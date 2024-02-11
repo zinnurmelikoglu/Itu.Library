@@ -30,5 +30,11 @@ namespace Itu.Library.Alignment.Compare
     {
       return GetEnumerator();
     }
+
+    public int Count()
+    {
+      return _LikelihoodFactorList.Count;
+    }
+
   }
 }

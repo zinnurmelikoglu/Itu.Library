@@ -66,8 +66,8 @@ namespace Itu.Library.Alignment.Compare
 
     internal List<AlignedElementStatus> AlignedElementStatusByElement(PLElement element)
     {
-      return (List<AlignedElementStatus>)this.Where(s => s.AlignedElementCouple.Element_First.Element.Intersect(element.Element).Any())
-      .Concat(this.Where(s => s.AlignedElementCouple.Element_Second.Element.Intersect(element.Element).Any())).ToList();
+      return (List<AlignedElementStatus>)this.Where(s => s.AlignedElementCouple.Element_First.Element.Equals(element.Element))
+      .Concat(this.Where(s => s.AlignedElementCouple.Element_Second.Element.Equals(element.Element))).ToList();
 
     }
 

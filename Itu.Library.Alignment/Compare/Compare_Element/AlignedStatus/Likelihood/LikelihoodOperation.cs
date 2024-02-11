@@ -20,24 +20,23 @@ namespace Itu.Library.Alignment.Compare
           //Weight = 0.5;
           var retVal = likelihoodList.Select(s => s.GetLikelihood(Sigma, s.Weight)).Aggregate((n, m) => n * m);
 
-          double andVal = 1.0;
-          foreach (var item in likelihoodList)
-          {
-            var weight = item.Weight;
-            andVal = item.GetLikelihood(Sigma, weight) * andVal;
-          }
+          //double andVal = 1.0;
+          //foreach (var item in likelihoodList)
+          //{
+          //  var weight = item.Weight;
+          //  andVal = item.GetLikelihood(Sigma, weight) * andVal;
+          //}
 
-          return andVal;
+          //return andVal;
+          
+          return retVal;
         }
 
-        public double OrOperation(AlignedElementStatusList alignedElementStatusList)
+        public double OrOperation(LikelihoodFactorList likelihoodList)
         {
-          Sigma = 0.296;
-          //Weight = 0.5;
+          Sigma = 0.208;
+          return likelihoodList.Select(s => s.GetLikelihood(Sigma, s.Weight)).Aggregate((n, m) => n * m);
 
-          var retVal = likelihoodList.Select(s => s.GetLikelihood(Sigma, s.Weight)).Aggregate((n, m) => n * m);
-
-          return 0.0;
         }
 
         public double CalculateSigma(double sigma, double weight, double inputVal)
