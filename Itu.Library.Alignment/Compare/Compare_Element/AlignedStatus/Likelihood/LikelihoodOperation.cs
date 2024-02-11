@@ -30,10 +30,12 @@ namespace Itu.Library.Alignment.Compare
           return andVal;
         }
 
-        public double OrOperation()
+        public double OrOperation(AlignedElementStatusList alignedElementStatusList)
         {
           Sigma = 0.296;
           //Weight = 0.5;
+
+          var retVal = likelihoodList.Select(s => s.GetLikelihood(Sigma, s.Weight)).Aggregate((n, m) => n * m);
 
           return 0.0;
         }

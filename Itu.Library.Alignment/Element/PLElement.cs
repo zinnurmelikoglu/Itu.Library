@@ -37,6 +37,7 @@ namespace Itu.Library.Alignment.Element
       PointList = new List<Point3d>();
       polyline.ForEach(m => { PointList.Add(m); });
       TanType = new TangentStatus(TanVal).GetTangentType();
+      
     }
 
     public static double GetTanVal(Point3d p1, Point3d p2)

@@ -15,15 +15,16 @@ namespace Itu.Library.Alignment.Geometry
     public bool isAligned { get; set; }
     public bool isSelected { get; set; }
     public List<PLGeometry> AlignedGeometry { get; set; }
-    public List<PLElement> ElementList => GetElementList();
+    public List<PLElement> ElementList { get; }
     public String GeometryName { get { return geometryPrefix + "-" + geometryName; } set { geometryName = value; } }
     String geometryName;
     String geometryPrefix = "geometry";
 
     public PLGeometry(IEnumerable<Point3d> collection) : base(collection)
     {
-      isAligned = false;
-      AlignedGeometry = new List<PLGeometry>();
+      this.isAligned = false;
+      this.AlignedGeometry = new List<PLGeometry>();
+      this.ElementList = GetElementList();
     }
 
     public Polyline[] GetElements()
@@ -32,7 +33,7 @@ namespace Itu.Library.Alignment.Geometry
       return lineArray;
     }
 
-    public List<PLElement> GetElementList()
+    List<PLElement> GetElementList()
     {
 
       List<PLElement> elementList = new List<PLElement>();

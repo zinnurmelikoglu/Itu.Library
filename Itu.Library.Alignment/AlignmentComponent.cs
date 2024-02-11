@@ -19,6 +19,7 @@ using System.Linq.Expressions;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
+using System.Xml.Linq;
 
 namespace Itu.Library.Alignment
 {
@@ -199,6 +200,36 @@ namespace Itu.Library.Alignment
 
       var alignedElementStatusList = compareList.GetAlignedElementStatusList();
       _AlignedElementStatusList.AddRangeAlignedElement(alignedElementStatusList);
+
+
+      foreach (var geometry in delegateGeometryList)
+      {
+
+        //List<PLGeometry> test = _AlignedElementStatusList.AlignedBy(geometry);
+
+        AlignedElementStatusList elementStatusList = new AlignedElementStatusList();
+        foreach (var element in geometry.ElementList)
+        {
+          var elementStatusByElement = _AlignedElementStatusList.AlignedElementStatusByElement(element);
+          AlignedElementStatus elementStatus;
+
+          if (elementStatusByElement.Count > 0)
+          {
+            elementStatus = elementStatusByElement.Aggregate((i1, i2) => i1.AlignedStrength > i2.AlignedStrength ? i1 : i2);
+            elementStatusList.AddAlignedElement(elementStatus);
+          }
+
+          
+
+        }
+
+        //List<PLGeometry> test = _AlignedElementStatusList.AlignedBy(geometry);
+
+
+
+      }
+      
+
    
       #endregion
 

@@ -1,5 +1,6 @@
 ﻿using Itu.Library.Alignment.Element;
 using Itu.Library.Alignment.Geometry;
+using Itu.Library.Alignment.Prepare;
 using Rhino.Geometry;
 using System;
 using System.Collections;
@@ -63,10 +64,10 @@ namespace Itu.Library.Alignment.Compare
     //  .Concat(this.Where(s => s.AlignedGeometryCouple.Geometry_Second.Intersect(geometry).Any()).Select(s => s.AlignedGeometryCouple.Geometry_First)).ToList();
     //}
 
-    internal IEnumerable<AlignedElementStatus> AlignedElementStatusByElement(PLElement element)
+    internal List<AlignedElementStatus> AlignedElementStatusByElement(PLElement element)
     {
-      return (IEnumerable<AlignedElementStatus>)this.Where(s => s.AlignedElementCouple.Element_First.Intersect(element).Any())
-      .Concat(this.Where(s => s.AlignedElementCouple.Element_Second.Intersect(element).Any()));
+      return (List<AlignedElementStatus>)this.Where(s => s.AlignedElementCouple.Element_First.Element.Intersect(element.Element).Any())
+      .Concat(this.Where(s => s.AlignedElementCouple.Element_Second.Element.Intersect(element.Element).Any())).ToList();
 
     }
 

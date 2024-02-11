@@ -16,14 +16,10 @@ namespace Itu.Library.Alignment.Compare
   {
     public PLGeometry Geometry_First { get; set; }
     public PLGeometry Geometry_Second { get; set; }
-    //public List<PLGeometry> Geometry_Remain { get; set; }
-    //public List<PLGeometry> GeometryList { get; set; }
-    List<PLElement> ElementList_First => Geometry_First.GetElementList();
-    List<PLElement> ElementList_Second => Geometry_Second.GetElementList();
+    List<PLElement> ElementList_First => Geometry_First.ElementList; //Geometry_First.GetElementList();
+    List<PLElement> ElementList_Second => Geometry_Second.ElementList; //Geometry_Second.GetElementList();
     public AlignedElementStatus _AlignedElementStatus { get; set; }
     public AlignedElementStatusList _AlignedElementStatusList { get; set; }
-    //public List<Line> LineList { get; set; }
-    //public List<Double> ClosenessList { get; set; }
     public bool isAligned { get; set; }
     double factor => 0.5;
     double Intersect { get; set; }
@@ -56,16 +52,6 @@ namespace Itu.Library.Alignment.Compare
           {
             var alignedElementCouple = new ElementCouple(element, temp);
             var alignedStatus = new AlignedElementStatus(alignedElementCouple);
-
-            //alignedStatus.AlignedStrength ==> likelihood
-
-            //GetAligned
-
-            //Bir elementin likelihood degerini diger elementlerde kazandigi likelihood degeriyle kiyaslanabilir
-
-            var asd = _AlignedElementStatusList.AlignedElementStatusByElement(element);
-            
-
             _AlignedElementStatusList.AddAlignedElement(alignedStatus);
 
             //Intersect += factor;
