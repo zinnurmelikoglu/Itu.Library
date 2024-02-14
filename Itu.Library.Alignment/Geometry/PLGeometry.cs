@@ -12,8 +12,10 @@ namespace Itu.Library.Alignment.Geometry
 {
   public class PLGeometry : Polyline
   {
+    public Polyline Geometry { get; set; }
     public bool isAligned { get; set; }
     public bool isSelected { get; set; }
+    public Point3d CenterPoint => Geometry.CenterPoint();
     public List<PLGeometry> AlignedGeometry { get; set; }
     public List<PLElement> ElementList { get; }
     public double Likelihood { get; set; }
@@ -24,8 +26,11 @@ namespace Itu.Library.Alignment.Geometry
     public PLGeometry(IEnumerable<Point3d> collection) : base(collection)
     {
       this.isAligned = false;
+      this.Geometry = new Polyline(collection);
+
       this.AlignedGeometry = new List<PLGeometry>();
       this.ElementList = GetElementList();
+      
     }
 
     public Polyline[] GetElements()

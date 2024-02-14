@@ -65,15 +65,30 @@ namespace Itu.Library.Alignment
     /// </summary>
     protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
     {
-      pManager.AddTextParameter("retText", "rT", "Text", GH_ParamAccess.list);
-      pManager.AddTextParameter("out", "out", "AlignmentFactor", GH_ParamAccess.item);
-      //pManager.AddTextParameter("retFactor", "rF", "AlignmentFactor", GH_ParamAccess.item);
-      pManager.AddCurveParameter("retLine", "rL", "Line List", GH_ParamAccess.list);
-      pManager.AddTextParameter("retCloseness", "rS", "Closeness", GH_ParamAccess.list);
-      pManager.AddTextParameter("retIntersect", "rI", "Intersect", GH_ParamAccess.list);
-      pManager.AddTextParameter("retAlignedStatus", "rA", "Aligned Element Status", GH_ParamAccess.list);
-      pManager.AddTextParameter("retTag", "rT", "Text Tag", GH_ParamAccess.list);
+      /************New one**************/
 
+      pManager.AddTextParameter("out", "out", "AlignmentFactor", GH_ParamAccess.item);
+      pManager.AddCurveParameter("retLine", "rL", "Line List", GH_ParamAccess.list);
+      pManager.AddTextParameter("geometryTree", "gT", "Geometry Tree", GH_ParamAccess.item);
+      pManager.AddTextParameter("elementTree", "gT", "Element Tree", GH_ParamAccess.item);
+      //pManager.AddTextParameter("retText", "rT", "Text", GH_ParamAccess.list);
+
+      /*********************************/
+
+
+
+
+      /************New one**************/
+
+      //pManager.AddTextParameter("out", "out", "AlignmentFactor", GH_ParamAccess.item);
+      ////pManager.AddTextParameter("retFactor", "rF", "AlignmentFactor", GH_ParamAccess.item);
+      //pManager.AddCurveParameter("retLine", "rL", "Line List", GH_ParamAccess.list);
+      //pManager.AddTextParameter("retCloseness", "rS", "Closeness", GH_ParamAccess.list);
+      //pManager.AddTextParameter("retIntersect", "rI", "Intersect", GH_ParamAccess.list);
+      //pManager.AddTextParameter("retAlignedStatus", "rA", "Aligned Element Status", GH_ParamAccess.list);
+      //pManager.AddTextParameter("retTag", "rT", "Text Tag", GH_ParamAccess.list);
+
+      /*********************************/
 
       //retAlignedStatusJson
 
@@ -146,15 +161,15 @@ namespace Itu.Library.Alignment
       /*
       Every single (poly)line which is the part of main geometry is filled to ElementList
       */
-      /*
+
       List<PLElement> ElementList = new List<PLElement>();
       foreach (var geometry in geometryList)
       {
-        var elementList = geometry.GetElementList();
+        var elementList = geometry.ElementList;
         ElementList.AddRange(elementList);
 
       }
-      */
+
       #endregion
 
 
@@ -175,9 +190,9 @@ namespace Itu.Library.Alignment
       List<int> InBetweenList = new List<int>();
       List<PLGeometry> storageList = new List<PLGeometry>();
       CompareGeometryList compareList = new CompareGeometryList();
-      var delegateGeometryList = geometryList.Where(s => s.isSelected).Any() ? geometryList.Where(s => s.isSelected).ToList() : geometryList;
+      var clearGeometryList = geometryList.Where(s => s.isSelected).Any() ? geometryList.Where(s => s.isSelected).ToList() : geometryList;
 
-      foreach (var geometry in delegateGeometryList)
+      foreach (var geometry in clearGeometryList)
       {
         storageList.Add(geometry);
         var tempGeometryList = geometryList.Except(storageList);
@@ -215,40 +230,47 @@ namespace Itu.Library.Alignment
        * and gives average likelihood value
        */
 
-      var geometryLikelihood = new GeometryLikelihood((List<PLGeometry>)delegateGeometryList);
+      var geometryLikelihood = new GeometryLikelihood((List<PLGeometry>)clearGeometryList);
       AverageLikelihood = geometryLikelihood.CalcGeometryLikelihood(_AlignedElementStatusList);
 
       #endregion
 
-      Curve[] outline = new Curve[] { };
-      foreach (var geometry in delegateGeometryList)
-      {
 
-        var elementList = geometry.GetElements();
+      #region This code block create geometries and elements summary lists including likelihood value
 
-        foreach (var element in elementList)
-        {
-
-          TextEntity likelihoodText = new TextEntity();
-          likelihoodText.PlainText = geometry.Likelihood.ToString();
-          likelihoodText.Plane = Plane.WorldXY;
-          likelihoodText.Justification = TextJustification.BottomLeft;
-          likelihoodText.TextHeight = 10;
-
-          outline = likelihoodText.CreateCurves(likelihoodText.DimensionStyle, false);
-
-        }
-
-      }
-
-
-       //var alignedTreeTest = new PrepareDataTree(_AlignedElementStatusList).GetDataTree<object>();
-       var outputList =  _AlignedElementStatusList.Select(s => new OutputParam { AlignedLine = s.AlignedLine, AlignedCloseness = s.AlignedCloseness, InBetweenFactor = s.InBetweenFactor, InBetweenGeometryCount = s.InBetweenGeometryCount, AlignedStrengt = s.AlignedStrength }).ToList();
+      //var alignedTreeTest = new PrepareDataTree(_AlignedElementStatusList).GetDataTree<object>();
+      var outputList =  _AlignedElementStatusList.Select(s => new OutputParam { AlignedLine = s.AlignedLine, AlignedCloseness = s.AlignedCloseness, InBetweenFactor = s.InBetweenFactor, InBetweenGeometryCount = s.InBetweenGeometryCount, AlignedStrengt = s.AlignedStrength }).ToList();
       var alignedTree = new PrepareDataTree<OutputParam>(outputList).GetDataTree();
 
+      var summaryGeometryList = clearGeometryList.Select(s => new GeometryOutput { Geometry = s.Geometry, GeometryName = s.GeometryName, CenterPoint = s.CenterPoint, Likelihood = s.Likelihood }).ToList();
+      var geometryTree = new PrepareDataTree<GeometryOutput>(summaryGeometryList).GetDataTree();
 
 
-      DA.SetData("retText", outline);
+
+
+      var summaryElementList = ElementList.Select(s => new ElementOutput { Element = s.Element, CenterPoint = s.PointCenter, Likelihood = new ElementLikelihood(s.Element).GetElementLikehood(_AlignedElementStatusList) }).ToList();
+      var elementTree = new PrepareDataTree<ElementOutput>(summaryElementList).GetDataTree();
+
+      #endregion
+
+
+
+      /*************** New one *******************/
+
+      DA.SetDataTree(0, alignedTree);
+      DA.SetDataList("retLine", lineList);
+      DA.SetDataTree(2, geometryTree);
+      DA.SetDataTree(3, elementTree);
+
+      //DA.SetDataList("retCloseness", ClosenessList);
+      //DA.SetDataList("retIntersect", InBetweenList);
+      //DA.SetDataList("retAlignedStatus", alignedElementStatusList);
+      //DA.SetDataList("retTag", alignedTree.Branches);
+
+      /*******************************************/
+
+      /*************** Old one *******************/
+      /*
 
       //DA.SetData("retFactor", result);
       DA.SetDataList("retLine", lineList);
@@ -257,6 +279,9 @@ namespace Itu.Library.Alignment
       DA.SetDataList("retAlignedStatus", alignedElementStatusList);
       DA.SetDataTree(0, alignedTree);
       DA.SetDataList("retTag", alignedTree.Branches);
+
+      */
+      /*******************************************/
 
     }
 
