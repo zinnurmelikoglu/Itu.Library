@@ -18,7 +18,7 @@ namespace Itu.Library.Alignment.Element
 
     public Point3d PointFirst { get { return PointList[0]; } }
     public Point3d PointSecond { get { return PointList[1]; } }
-    public Point3d PointCenter { get { return getMiddlePoint(PointFirst, PointSecond); } }
+    public Point3d PointCenter { get { return getMiddlePoint(Element); } }
 
     public double TanVal { get { return calTanVal(PointFirst, PointSecond); } }
     public double TanVal_Rounded { get { return Math.Round(TanVal, 2); } }
@@ -31,7 +31,7 @@ namespace Itu.Library.Alignment.Element
 
     Func<Point3d, Point3d, double, double> getRefX = GetReferenceX;
     Func<Point3d, Point3d, double, double> getRefY = GetReferenceY;
-    Func<Point3d, Point3d, Point3d> getMiddlePoint = GetMiddlePoint;
+    Func<Polyline, Point3d> getMiddlePoint = GetMiddlePoint;
 
     public double Likelihood { get; set; }
 
@@ -67,17 +67,21 @@ namespace Itu.Library.Alignment.Element
       return Math.Round(reference);
     }
 
-    public static Point3d GetMiddlePoint(Point3d p1, Point3d p2)
+    //public static Point3d GetMiddlePoint(Point3d p1, Point3d p2)
+    public static Point3d GetMiddlePoint(Polyline element)
     {
-      double neutral = 0.00;
-      //reference = tanVal > 0 ? -(tanVal * p1.X) + p1.Y : -(tanVal * p1.X - p1.Y);
+      //double neutral = 0.00;
+      ////reference = tanVal > 0 ? -(tanVal * p1.X) + p1.Y : -(tanVal * p1.X - p1.Y);
 
-      var pX = Math.Abs(p1.X - p2.X);
-      var pY = Math.Abs(p1.Y - p2.Y);
+      //var pX = Math.Abs(p1.X - p2.X);
+      //var pY = Math.Abs(p1.Y - p2.Y);
 
 
 
-      return new Point3d(p1.X + pX, p1.Y + pY, neutral);
+      //return new Point3d(p1.X + pX, p1.Y + pY, neutral);
+
+      return element.CenterPoint();
+
     }
 
   }

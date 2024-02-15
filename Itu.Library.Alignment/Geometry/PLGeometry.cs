@@ -19,6 +19,7 @@ namespace Itu.Library.Alignment.Geometry
     public List<PLGeometry> AlignedGeometry { get; set; }
     public List<PLElement> ElementList { get; }
     public double Likelihood { get; set; }
+    public double Likelihood_Rounded => Math.Round(Likelihood, 3);
     public String GeometryName { get { return geometryPrefix + "-" + geometryName; } set { geometryName = value; } }
     String geometryName;
     String geometryPrefix = "geometry";

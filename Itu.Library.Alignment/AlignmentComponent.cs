@@ -68,10 +68,10 @@ namespace Itu.Library.Alignment
       /************New one**************/
 
       pManager.AddTextParameter("out", "out", "AlignmentFactor", GH_ParamAccess.item);
-      pManager.AddCurveParameter("retLine", "rL", "Line List", GH_ParamAccess.list);
-      pManager.AddTextParameter("geometryTree", "gT", "Geometry Tree", GH_ParamAccess.item);
-      pManager.AddTextParameter("elementTree", "gT", "Element Tree", GH_ParamAccess.item);
-      //pManager.AddTextParameter("retText", "rT", "Text", GH_ParamAccess.list);
+      pManager.AddCurveParameter("lines", "R", "Line List", GH_ParamAccess.list);
+      pManager.AddTextParameter("geometryTree", "G", "Geometry Tree", GH_ParamAccess.tree);
+      pManager.AddTextParameter("elementTree", "E", "Element Tree", GH_ParamAccess.item);
+      pManager.AddTextParameter("averageLikelihood", "A", "Average Likelihood", GH_ParamAccess.item);
 
       /*********************************/
 
@@ -242,13 +242,10 @@ namespace Itu.Library.Alignment
       var outputList =  _AlignedElementStatusList.Select(s => new OutputParam { AlignedLine = s.AlignedLine, AlignedCloseness = s.AlignedCloseness, InBetweenFactor = s.InBetweenFactor, InBetweenGeometryCount = s.InBetweenGeometryCount, AlignedStrengt = s.AlignedStrength }).ToList();
       var alignedTree = new PrepareDataTree<OutputParam>(outputList).GetDataTree();
 
-      var summaryGeometryList = clearGeometryList.Select(s => new GeometryOutput { Geometry = s.Geometry, GeometryName = s.GeometryName, CenterPoint = s.CenterPoint, Likelihood = s.Likelihood }).ToList();
+      var summaryGeometryList = clearGeometryList.Select(s => new GeometryOutput { Geometry = s.Geometry, GeometryName = s.GeometryName, CenterPoint = s.CenterPoint, Likelihood = s.Likelihood_Rounded }).ToList();
       var geometryTree = new PrepareDataTree<GeometryOutput>(summaryGeometryList).GetDataTree();
 
-
-
-
-      var summaryElementList = ElementList.Select(s => new ElementOutput { Element = s.Element, CenterPoint = s.PointCenter, Likelihood = new ElementLikelihood(s.Element).GetElementLikehood(_AlignedElementStatusList) }).ToList();
+      var summaryElementList = ElementList.Select(s => new ElementOutput { Element = s.Element, CenterPoint = s.Element.CenterPoint(), Likelihood = new ElementLikelihood(s).GetElementLikehood(_AlignedElementStatusList) }).ToList();
       var elementTree = new PrepareDataTree<ElementOutput>(summaryElementList).GetDataTree();
 
       #endregion
@@ -258,9 +255,10 @@ namespace Itu.Library.Alignment
       /*************** New one *******************/
 
       DA.SetDataTree(0, alignedTree);
-      DA.SetDataList("retLine", lineList);
+      DA.SetDataList("lines", lineList);
       DA.SetDataTree(2, geometryTree);
       DA.SetDataTree(3, elementTree);
+      DA.SetData("averageLikelihood", AverageLikelihood);
 
       //DA.SetDataList("retCloseness", ClosenessList);
       //DA.SetDataList("retIntersect", InBetweenList);

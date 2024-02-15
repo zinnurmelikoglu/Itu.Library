@@ -44,8 +44,8 @@ namespace Itu.Library.Alignment.Compare
 
         }
 
-        if (likelihoodFactorList._LikelihoodFactorList.Count > 0)
-          geometry.Likelihood = new LikelihoodOperation().OrOperation(likelihoodFactorList);
+        /* This code line below assigns geometry likelihood to likelihood property in geometry class */
+        geometry.Likelihood = likelihoodFactorList._LikelihoodFactorList.Count > 0 ? 1 - new LikelihoodOperation().OrOperation(likelihoodFactorList) : neutral;
 
       }
 
@@ -56,7 +56,7 @@ namespace Itu.Library.Alignment.Compare
     public double CalcAverageLikelihood()
     {
       var total = 0.0;
-      int i = GeometryList.Count;      
+      int i = GeometryList.Count;
       GeometryList.ForEach(geometry => { total += geometry.Likelihood; });
 
       return total / i;
