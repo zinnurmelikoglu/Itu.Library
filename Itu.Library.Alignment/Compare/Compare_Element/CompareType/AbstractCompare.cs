@@ -17,7 +17,6 @@ namespace Itu.Library.Alignment.Compare
     private bool _isAligned;
     public virtual Point3d point_First => Element_First.Element.ClosestPoint(Element_Second.PointFirst);
     public virtual Point3d point_Second => Element_Second.Element.ClosestPoint(Element_First.PointFirst);
-    //protected virtual AlignedElementStatus _AlignedElementStatus { get; set; }
     
     public AbstractCompare() { }
     public AbstractCompare(PLElement element_First, PLElement element_Second)
@@ -27,12 +26,6 @@ namespace Itu.Library.Alignment.Compare
 
     }
     public abstract bool CompareElement();
-    //public virtual AlignedElementStatus GetAlignedElementStatus()
-    //{
-    //  var alignedElementCouple = new ElementCouple(Element_First, Element_Second);
-    //  _AlignedElementStatus = new AlignedElementStatus(alignedElementCouple);
-    //  return _AlignedElementStatus;
-    //}
     
   }
 }

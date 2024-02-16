@@ -12,14 +12,8 @@ namespace Itu.Library.Alignment.Prepare
   public TagGeometry() { }
 
     List<String> AddTag()
-    { 
-    List<String> textTag = new List<String>();
-      //foreach (var item in geometryList)
-      //{
-      //  textTag.Add(item.GeometryName);
-      //}
-
-
+    {
+      List<String> textTag = new List<String>();
       return textTag;
 
     }

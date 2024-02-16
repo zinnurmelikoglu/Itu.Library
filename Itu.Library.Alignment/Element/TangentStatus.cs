@@ -14,10 +14,6 @@ namespace Itu.Library.Alignment.Element
     public Double Tangent { get; set; }
     public TangentType TangentType { get; set; }
     double neutral = 0.0;
-    //public TangentStatus(Double tangent) {
-    //  Tangent = tangent;
-    //}
-
     public TangentStatus(Double tangent)=> Tangent = tangent;
     
     public TangentType GetTangentType()

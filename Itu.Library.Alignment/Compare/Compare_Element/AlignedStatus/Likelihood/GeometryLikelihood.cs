@@ -16,7 +16,7 @@ namespace Itu.Library.Alignment.Compare
       GeometryList = geometryList;
     }
 
-    public double CalcGeometryLikelihood(AlignedElementStatusList alignedElementStatusList)
+    public double CreateGeometryLikelihood(AlignedElementStatusList alignedElementStatusList)
     {
       _AlignedElementStatusList = alignedElementStatusList;
       double neutral = 0.00;
@@ -28,7 +28,7 @@ namespace Itu.Library.Alignment.Compare
         
         foreach (var element in elementList)
         {
-          var elementStatusByElement = _AlignedElementStatusList.AlignedElementStatusByElement(element);
+          var elementStatusByElement = _AlignedElementStatusList.GetAlignedElementStatusList(element);
           ElementFactor elementFactor = new ElementFactor();
           
           if (elementStatusByElement.Count > 0)
@@ -49,11 +49,11 @@ namespace Itu.Library.Alignment.Compare
 
       }
 
-      return CalcAverageLikelihood();
+      return CreateAverageLikelihood();
 
     }
 
-    public double CalcAverageLikelihood()
+    public double CreateAverageLikelihood()
     {
       var total = 0.0;
       int i = GeometryList.Count;

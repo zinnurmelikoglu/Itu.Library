@@ -20,9 +20,6 @@ namespace Itu.Library.Alignment.Prepare
 
     public bool Equals()
     {
-      //var firstCurve = curveEquality.FirstCurve;
-      //var secondCurve = curveEquality.SecondCurve;
-
       var firstCurve = FirstCurve;
       var secondCurve = SecondCurve;
 

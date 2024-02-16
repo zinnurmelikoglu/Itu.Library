@@ -21,14 +21,12 @@ namespace Itu.Library.Alignment.Compare
     {
       Element_First = element_First;
       Element_Second = element_Second;
-      //TanVal = plElement_Base.TanVal_Rounded;
       TanVal = element_First.TanVal;
 
     }
 
     public AbstractCompare CompareType()
     {
-      //double tanVal = PLElement_Base.TanVal_Rounded;
       double tanVal = Math.Abs(Element_First.TanVal);
       TangentType tanType = Element_First.TanType;
 

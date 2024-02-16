@@ -40,28 +40,19 @@ namespace Itu.Library.Alignment.Compare
 
     public List<Line> GetAlignedLineList()
     {
-      List<Line> lineList = new List<Line>();
-      //return (List<Line>)compareGeometryList.Where(s => s.isAligned).SelectMany(s => s.LineList).ToList();
-      //return (List<Line>)this.Where(s => s.isAligned).SelectMany(s => s._AlignedElementStatusList._AlignedElementStatusList).Select(s=> s.AlignedLine).ToList();
       return (List<Line>)this.Where(s => s.isAligned).SelectMany(s => s._AlignedElementStatusList).Select(s => s.AlignedLine).ToList();
-
     }
 
     public List<Double> GetAlignedClosenessList()
     {
-      List<Double> lineList = new List<Double>();
-      //return (List<Double>)compareGeometryList.Where(s => s.isAligned).SelectMany(s => s.ClosenessList).ToList();
-      //return (List<Double>)this.Where(s => s.isAligned).SelectMany(s => s._AlignedElementStatusList._AlignedElementStatusList).Select(s => s.AlignedCloseness).ToList();
       return (List<Double>)this.Where(s => s.isAligned).SelectMany(s => s._AlignedElementStatusList).Select(s => s.AlignedCloseness).ToList();
     }
 
     public List<int> GetInBetweenGeometryCount()
     {
-      //compareGeometryList.ForEach(m => { intersect += m.GetIntersectFactor(); });
       return (List<int>)compareGeometryList.Where(s => s.isAligned).SelectMany(s => s._AlignedElementStatusList).Select(s => s.InBetweenGeometryCount).ToList();
 
     }
-
 
     public Double GetFactor()
     {
@@ -72,7 +63,6 @@ namespace Itu.Library.Alignment.Compare
       return intersect / compareCount;
 
     }
-
 
     internal List<PLGeometry> AlignedBy(PLGeometry geometry)
     {

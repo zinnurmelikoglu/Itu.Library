@@ -20,7 +20,6 @@
   </ItemGroup>
   
   <ItemGroup>
-    <Folder Include="Compare\Compare_Element\AlignedStatus\AlignedProperties\LikelihoodProp\" />
     <Folder Include="ConvertHelper\" />
   </ItemGroup>
 

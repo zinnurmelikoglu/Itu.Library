@@ -20,15 +20,11 @@ namespace Itu.Library.Alignment.Compare
       double neutral = 0.00;
       double likelihood;
 
-      var elementStatusByElement = _AlignedElementStatusList.AlignedElementStatusByElement(Element);
-      ElementFactor elementFactor = new ElementFactor();
-
+      var elementStatusByElement = _AlignedElementStatusList.GetAlignedElementStatusList(Element);
       if (elementStatusByElement.Count > 0)
       {
         AlignedElementStatus elementStatus = elementStatusByElement.Aggregate((i1, i2) => i1.AlignedStrength > i2.AlignedStrength ? i1 : i2);
-        //elementFactor.Factor = elementStatus.AlignedStrength;
         likelihood = elementStatus.AlignedStrength;
-
       }
       else
         likelihood = neutral;

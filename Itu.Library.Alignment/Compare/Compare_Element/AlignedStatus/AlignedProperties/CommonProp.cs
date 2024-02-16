@@ -17,7 +17,6 @@ namespace Itu.Library.Alignment.Compare
     public virtual Point3d point_Second => Element_Second.Element.ClosestPoint(Element_First.PointFirst);
     public TangentType _TangentType => Element_First.TanType;
     public GeometryCouple _GemoetryCouple => _ElementCouple.GetGeometryCouple();
-    //LikelihoodFactorList likelihoodFactorList { get; set; }
     public LikelihoodFactor _LikelihoodFactor { get; set; }
     public virtual bool IsFactor { get; set; }
     public CommonProp(ElementCouple elementCouple)

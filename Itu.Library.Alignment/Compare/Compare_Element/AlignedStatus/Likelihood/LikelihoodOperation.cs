@@ -9,26 +9,14 @@ namespace Itu.Library.Alignment.Compare
 {
     public class LikelihoodOperation
     {
-        //public double Sigma { get; set; }
         double Sigma;
-        //public double Weight { get; set; }
         
         public double AndOperation(LikelihoodFactorList likelihoodList)
         {
 
           Sigma = 0.296;
-          //Weight = 0.5;
           var retVal = likelihoodList.Select(s => s.GetLikelihood(Sigma, s.Weight)).Aggregate((n, m) => n * m);
 
-          //double andVal = 1.0;
-          //foreach (var item in likelihoodList)
-          //{
-          //  var weight = item.Weight;
-          //  andVal = item.GetLikelihood(Sigma, weight) * andVal;
-          //}
-
-          //return andVal;
-          
           return retVal;
         }
 
@@ -39,7 +27,7 @@ namespace Itu.Library.Alignment.Compare
 
         }
 
-        public double CalculateSigma(double sigma, double weight, double inputVal)
+        public double CreateSigma(double sigma, double weight, double inputVal)
         {
           Range<int> range = new Range<int>(0,1);
             

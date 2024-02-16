@@ -16,8 +16,8 @@ namespace Itu.Library.Alignment.Compare
   {
     public PLGeometry Geometry_First { get; set; }
     public PLGeometry Geometry_Second { get; set; }
-    List<PLElement> ElementList_First => Geometry_First.ElementList; //Geometry_First.GetElementList();
-    List<PLElement> ElementList_Second => Geometry_Second.ElementList; //Geometry_Second.GetElementList();
+    List<PLElement> ElementList_First => Geometry_First.ElementList;
+    List<PLElement> ElementList_Second => Geometry_Second.ElementList;
     public AlignedElementStatus _AlignedElementStatus { get; set; }
     public AlignedElementStatusList _AlignedElementStatusList { get; set; }
     public bool isAligned { get; set; }
@@ -54,7 +54,6 @@ namespace Itu.Library.Alignment.Compare
             var alignedStatus = new AlignedElementStatus(alignedElementCouple);
             _AlignedElementStatusList.AddAlignedElement(alignedStatus);
 
-            //Intersect += factor;
             isAligned = true;
 
           }

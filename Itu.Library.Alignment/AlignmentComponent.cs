@@ -65,7 +65,7 @@ namespace Itu.Library.Alignment
     /// </summary>
     protected override void RegisterOutputParams(GH_Component.GH_OutputParamManager pManager)
     {
-      /************New one**************/
+      /************ Input ***************/
 
       pManager.AddTextParameter("out", "out", "AlignmentFactor", GH_ParamAccess.item);
       pManager.AddCurveParameter("lines", "R", "Line List", GH_ParamAccess.list);
@@ -75,22 +75,6 @@ namespace Itu.Library.Alignment
 
       /*********************************/
 
-
-
-
-      /************New one**************/
-
-      //pManager.AddTextParameter("out", "out", "AlignmentFactor", GH_ParamAccess.item);
-      ////pManager.AddTextParameter("retFactor", "rF", "AlignmentFactor", GH_ParamAccess.item);
-      //pManager.AddCurveParameter("retLine", "rL", "Line List", GH_ParamAccess.list);
-      //pManager.AddTextParameter("retCloseness", "rS", "Closeness", GH_ParamAccess.list);
-      //pManager.AddTextParameter("retIntersect", "rI", "Intersect", GH_ParamAccess.list);
-      //pManager.AddTextParameter("retAlignedStatus", "rA", "Aligned Element Status", GH_ParamAccess.list);
-      //pManager.AddTextParameter("retTag", "rT", "Text Tag", GH_ParamAccess.list);
-
-      /*********************************/
-
-      //retAlignedStatusJson
 
     }
 
@@ -208,20 +192,15 @@ namespace Itu.Library.Alignment
       /*
       CompareList is filled out with all matches regardless of whether they are aligned
       Compare method is called in the CompareList full of CompareGeometry
-      lineList, ClosenessList and result are requested from CompareList IEnumerable Class by calling suitable methods giving matched geometry information
+      Aligned Element Status List consisting of aligned elements properties is created
       */
       compareList.compareGeometryList.ForEach(compare => { compare.Compare(); });  //Lets compare each geometry
-
-
-      lineList = compareList.GetAlignedLineList();
-      ClosenessList = compareList.GetAlignedClosenessList();
-      InBetweenList = compareList.GetInBetweenGeometryCount();
-      double result = compareList.GetFactor();
-
+      
       var alignedElementStatusList = compareList.GetAlignedElementStatusList();
       _AlignedElementStatusList.AddRangeAlignedElement(alignedElementStatusList);
 
       #endregion
+
 
       #region This code block assigns every geometry their calculated likelihood values
 
@@ -231,14 +210,13 @@ namespace Itu.Library.Alignment
        */
 
       var geometryLikelihood = new GeometryLikelihood((List<PLGeometry>)clearGeometryList);
-      AverageLikelihood = geometryLikelihood.CalcGeometryLikelihood(_AlignedElementStatusList);
+      AverageLikelihood = geometryLikelihood.CreateGeometryLikelihood(_AlignedElementStatusList);
 
       #endregion
 
 
       #region This code block create geometries and elements summary lists including likelihood value
 
-      //var alignedTreeTest = new PrepareDataTree(_AlignedElementStatusList).GetDataTree<object>();
       var outputList =  _AlignedElementStatusList.Select(s => new OutputParam { AlignedLine = s.AlignedLine, AlignedCloseness = s.AlignedCloseness, InBetweenFactor = s.InBetweenFactor, InBetweenGeometryCount = s.InBetweenGeometryCount, AlignedStrengt = s.AlignedStrength }).ToList();
       var alignedTree = new PrepareDataTree<OutputParam>(outputList).GetDataTree();
 
@@ -251,8 +229,7 @@ namespace Itu.Library.Alignment
       #endregion
 
 
-
-      /*************** New one *******************/
+      /*************** Output *******************/
 
       DA.SetDataTree(0, alignedTree);
       DA.SetDataList("lines", lineList);
@@ -260,26 +237,9 @@ namespace Itu.Library.Alignment
       DA.SetDataTree(3, elementTree);
       DA.SetData("averageLikelihood", AverageLikelihood);
 
-      //DA.SetDataList("retCloseness", ClosenessList);
-      //DA.SetDataList("retIntersect", InBetweenList);
-      //DA.SetDataList("retAlignedStatus", alignedElementStatusList);
-      //DA.SetDataList("retTag", alignedTree.Branches);
 
       /*******************************************/
 
-      /*************** Old one *******************/
-      /*
-
-      //DA.SetData("retFactor", result);
-      DA.SetDataList("retLine", lineList);
-      DA.SetDataList("retCloseness", ClosenessList);
-      DA.SetDataList("retIntersect", InBetweenList);
-      DA.SetDataList("retAlignedStatus", alignedElementStatusList);
-      DA.SetDataTree(0, alignedTree);
-      DA.SetDataList("retTag", alignedTree.Branches);
-
-      */
-      /*******************************************/
 
     }
 

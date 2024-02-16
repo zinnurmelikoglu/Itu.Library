@@ -39,32 +39,20 @@ namespace Itu.Library.Alignment.Compare
       return GetEnumerator();
     }
 
-    //internal List<PLElement> AlignedBy(PLElement element)
-    //{
-    //  return (List<PLElement>)this.Where(s => s._AbstractCompare.Element_First.Intersect(element).Any()).Select(s => s._AbstractCompare.Element_Second)
-    //  .Concat(this.Where(s => s._AbstractCompare.Element_Second.Intersect(element).Any()).Select(s => s._AbstractCompare.Element_First)).ToList();
-    //}
-
-    internal List<PLGeometry> AlignedBy(PLGeometry geometry)
+    internal List<PLGeometry> GetAlignedGeometryList(PLGeometry geometry)
     {
       return (List<PLGeometry>)this.Where(s => s.AlignedGeometryCouple.Geometry_First.Intersect(geometry).Any()).Select(s => s.AlignedGeometryCouple.Geometry_Second)
       .Concat(this.Where(s => s.AlignedGeometryCouple.Geometry_Second.Intersect(geometry).Any()).Select(s => s.AlignedGeometryCouple.Geometry_First)).ToList();
     }
 
-    internal List<PLElement> AlignedBy(PLElement element)
+    internal List<PLElement> GetAlignedElementList(PLElement element)
     {
       return (List<PLElement>)this.Where(s => s.AlignedElementCouple.Element_First.Intersect(element).Any()).Select(s => s.AlignedElementCouple.Element_Second)
       .Concat(this.Where(s => s.AlignedElementCouple.Element_Second.Intersect(element).Any()).Select(s => s.AlignedElementCouple.Element_First));
 
     }
 
-    //internal List<PLGeometry> AlignedElementStatusByGeometry(PLGeometry geometry)
-    //{
-    //  return (List<PLGeometry>)this.Where(s => s.AlignedGeometryCouple.Geometry_First.Intersect(geometry).Any()).Select(s => s.AlignedGeometryCouple.Geometry_Second)
-    //  .Concat(this.Where(s => s.AlignedGeometryCouple.Geometry_Second.Intersect(geometry).Any()).Select(s => s.AlignedGeometryCouple.Geometry_First)).ToList();
-    //}
-
-    internal List<AlignedElementStatus> AlignedElementStatusByElement(PLElement element)
+    internal List<AlignedElementStatus> GetAlignedElementStatusList(PLElement element)
     {
       return (List<AlignedElementStatus>)this.Where(s => s.AlignedElementCouple.Element_First.Element.Equals(element.Element))
       .Concat(this.Where(s => s.AlignedElementCouple.Element_Second.Element.Equals(element.Element))).ToList();

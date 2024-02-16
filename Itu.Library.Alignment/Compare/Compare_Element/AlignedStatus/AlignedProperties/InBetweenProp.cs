@@ -55,7 +55,6 @@ namespace Itu.Library.Alignment.Compare
     {
       var count = InBetweenGeometryCount;
       var inBetweenFactor = Math.Max(1 - 0.4 * count, 0);
-      //_InBetweenFactor.Factor = inBetweenFactor;
 
       return inBetweenFactor;
     }
