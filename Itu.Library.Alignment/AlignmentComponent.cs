@@ -68,7 +68,7 @@ namespace Itu.Library.Alignment
       /************ Input ***************/
 
       pManager.AddTextParameter("out", "out", "AlignmentFactor", GH_ParamAccess.item);
-      pManager.AddCurveParameter("lines", "R", "Line List", GH_ParamAccess.list);
+      pManager.AddCurveParameter("lines", "L", "Line List", GH_ParamAccess.list);
       pManager.AddTextParameter("geometryTree", "G", "Geometry Tree", GH_ParamAccess.tree);
       pManager.AddTextParameter("elementTree", "E", "Element Tree", GH_ParamAccess.item);
       pManager.AddTextParameter("averageLikelihood", "A", "Average Likelihood", GH_ParamAccess.item);
@@ -192,10 +192,12 @@ namespace Itu.Library.Alignment
       /*
       CompareList is filled out with all matches regardless of whether they are aligned
       Compare method is called in the CompareList full of CompareGeometry
+      lineList are requested from CompareList IEnumerable Class
       Aligned Element Status List consisting of aligned elements properties is created
       */
       compareList.compareGeometryList.ForEach(compare => { compare.Compare(); });  //Lets compare each geometry
-      
+
+      lineList = compareList.GetAlignedLineList();
       var alignedElementStatusList = compareList.GetAlignedElementStatusList();
       _AlignedElementStatusList.AddRangeAlignedElement(alignedElementStatusList);
 
