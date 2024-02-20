@@ -17,8 +17,9 @@ namespace Itu.Library.Alignment.Compare
 
     public double GetTolerationVal() {
 
+      double minVal = 1.0;
       double factor = conFact - AlignedCloseness;
-      return TolerateVal * factor;
+      return (TolerateVal * factor) < minVal ? minVal : (TolerateVal * factor);
 
     }
   }
