@@ -54,10 +54,10 @@ namespace Itu.Library.Alignment
     {
 
       pManager.AddCurveParameter("curveList", "cL", "Curve for analysis", GH_ParamAccess.list);
-      pManager.AddRectangleParameter("area", "ar", "A rectancgle draw a border of the facade", GH_ParamAccess.item, new Rectangle3d(Plane.WorldXY, 800.0, 500.0));
+      pManager.AddRectangleParameter("area", "aR", "A rectancgle draw a border of the facade", GH_ParamAccess.item, new Rectangle3d(Plane.WorldXY, 800.0, 500.0));
       int index = pManager.AddCurveParameter("curveBase", "cB", "Base curve for analysis", GH_ParamAccess.item);
       this.Params.Input[index].Optional = true;
-
+      pManager.AddNumberParameter("toleranceDegree", "tD", "Describe degree value for the tolerance", GH_ParamAccess.item);
     }
 
     /// <summary>
@@ -89,11 +89,13 @@ namespace Itu.Library.Alignment
       List<Curve> curveList = new List<Curve>();
       Curve curveBase = Curve.CreateControlPointCurve(new List<Point3d>());
       Rectangle3d area = new Rectangle3d();
+      double toleranceDegree = 0.0;
       var dictName = "GeometryList";
 
       DA.GetDataList("curveList", curveList);
       DA.GetData("area", ref area);
       DA.GetData("curveBase", ref curveBase);
+      DA.GetData("toleranceDegree", ref toleranceDegree);
 
       #region Specifying Facade Area
 
@@ -102,6 +104,14 @@ namespace Itu.Library.Alignment
       EntityBase.SetValue("area", facadeArea);
       var listCount = curveList.Count();
 
+      #endregion
+
+      #region Setting Tolerate Degree
+
+      string tolerance = "tolerance";
+      EntityBase.RemoveDictionary(tolerance);
+      EntityBase.SetValue(tolerance, toleranceDegree);
+      
       #endregion
 
 

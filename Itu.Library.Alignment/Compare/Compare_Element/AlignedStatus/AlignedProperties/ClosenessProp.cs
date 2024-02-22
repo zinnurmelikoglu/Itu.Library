@@ -24,12 +24,17 @@ namespace Itu.Library.Alignment.Compare
       var length_base = Element_First.Element.Length;
       var length_temp = Element_Second.Element.Length;
 
+      double distance = GetDistance();
+      double plDistance = length_base + length_temp;
+      return plDistance / (plDistance + Math.Abs(distance));
+    }
+
+    public double GetDistance()
+    {
       Point3d point_First = Element_First.Element.ClosestPoint(Element_Second.PointFirst);
       Point3d point_Second = Element_Second.Element.ClosestPoint(Element_First.PointFirst);
 
-      double distance = point_First.DistanceTo(point_Second);
-      double plDistance = length_base + length_temp;
-      return plDistance / (plDistance + Math.Abs(distance));
+      return point_First.DistanceTo(point_Second);
     }
 
     public override void AddLikelihoodFactor()
