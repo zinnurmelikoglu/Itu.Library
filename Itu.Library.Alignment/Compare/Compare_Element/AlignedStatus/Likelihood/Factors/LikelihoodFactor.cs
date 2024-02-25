@@ -22,5 +22,13 @@ namespace Itu.Library.Alignment.Compare
 
     }
 
+    public virtual double GetLikelihood(double sigma, double weight, double factor)
+    {
+      Sigma = sigma;
+      Weight = weight;
+      return Likelihood = Math.Exp(-1 / (2 * Math.Pow(Sigma, 2)) * Math.Pow(Weight, 2) * Math.Pow(factor - 1, 2));
+
+    }
+
   }
 }
