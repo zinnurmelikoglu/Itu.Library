@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Itu.Library.Alignment.Util;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -55,7 +56,7 @@ namespace Itu.Library.Alignment.Compare
         for (int line = 0; line < arrCount; line++)
         {
           double val = 1.0;
-          for (int group = 0; group < factorCount; line++)
+          for (int group = 0; group < factorCount; group++)
           {
             val *= likelihoodArr[group, line];
           }
@@ -73,12 +74,16 @@ namespace Itu.Library.Alignment.Compare
         var resultArr = subArr.Select(s => Math.Pow(s, 2)).ToArray();
         var sum = resultArr.Sum();
 
-        result = sum < result ? sum : result;
-        _sigma = sum < result ? sigma : _sigma;
+        if (sum < result)
+        {
+          result = sum;
+          _sigma = sigma;
+        }
 
       }
 
       //29684860000750612, 296848, 296687, 0.296799
+      EntityBase.SetValue<double>("Sigma", _sigma);
       return _sigma;
 
     }
