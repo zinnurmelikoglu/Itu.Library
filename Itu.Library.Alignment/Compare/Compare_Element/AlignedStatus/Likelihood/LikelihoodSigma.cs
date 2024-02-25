@@ -9,6 +9,7 @@ namespace Itu.Library.Alignment.Compare
   public class LikelihoodSigma
   {
     LikelihoodFactorList _LikelihoodList;
+    public double Sigma => CreateSigma();
     const int arrCount = 11;
     const double sigmaCount = 10000;
 
@@ -26,9 +27,8 @@ namespace Itu.Library.Alignment.Compare
       double[] factorArr = Enumerable.Range(0, arrCount).Select(s => s / 10.0).ToArray();
 
       double[,] likelihoodArr = new double[factorCount, arrCount];
-      double[][] likelihoodArr_ = new double[2][] ;
       double[] multiArr = new double[arrCount];
-      double[] subtractionArr = new double[arrCount];
+      double[] subArr = new double[arrCount];
 
       double result = 1.0;
       double _sigma = 1.0;
@@ -36,57 +36,50 @@ namespace Itu.Library.Alignment.Compare
       foreach (var sigma in sigmaArr)
       {
 
+        #region Fill likelihood Array
         int count = 0;
         foreach (var item in _LikelihoodList)
         {
-          int y = 0;
+          int i = 0;
           foreach (var factor in factorArr)
           {
-            likelihoodArr[count, y] = item.GetLikelihood(sigma, item.Weight, factor);
-            y++;
+            likelihoodArr[count, i] = item.GetLikelihood(sigma, item.Weight, factor);
+            i++;
           }
           count++;
 
         }
+        #endregion
 
-        int j = 0;
-        for (int b = 0; b < likelihoodArr.GetLength(1); b++)
+        #region Array Multiplication
+        for (int line = 0; line < arrCount; line++)
         {
-          double multi = 1.0;
-          for (int a = 0; a < likelihoodArr.GetLength(0); a++)
+          double val = 1.0;
+          for (int group = 0; group < factorCount; line++)
           {
-
-            multi *= likelihoodArr[a, b];
-
+            val *= likelihoodArr[group, line];
           }
-          multiArr[j] = multi;
-          j++;
-
+          multiArr[line] = val;
         }
+        #endregion
 
-
-        for (int s = 0; s < factorArr.Length; s++)
+        #region Subtraction Between Multiplication and Factor Array
+        for (int s = 0; s < arrCount; s++)
         {
-          subtractionArr[s] = factorArr[s] - multiArr[s];
+          subArr[s] = factorArr[s] - multiArr[s];
         }
+        #endregion
 
-        var resultArr = subtractionArr.Select(s => Math.Pow(s, 2)).ToArray();
-        var sub = resultArr.Sum();
+        var resultArr = subArr.Select(s => Math.Pow(s, 2)).ToArray();
+        var sum = resultArr.Sum();
 
-        if (sub < result)
-        {
-          result = sub;
-          _sigma = i;
-        }
-
-
+        result = sum < result ? sum : result;
+        _sigma = sum < result ? sigma : _sigma;
 
       }
 
-      sigma = _sigma;  //29684860000750612, 296848, 296687, 0.296799 
-      return result;
-
-
+      //29684860000750612, 296848, 296687, 0.296799
+      return _sigma;
 
     }
 

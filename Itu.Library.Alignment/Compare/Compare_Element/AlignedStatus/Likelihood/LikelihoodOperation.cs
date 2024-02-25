@@ -1,4 +1,5 @@
 ﻿using Eto.Forms;
+using Itu.Library.Alignment.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +14,12 @@ namespace Itu.Library.Alignment.Compare
         
         public double AndOperation(LikelihoodFactorList likelihoodList)
         {
+        //Sigma = 0.296;
 
-          Sigma = 0.296;
-          var retVal = likelihoodList.Select(s => s.GetLikelihood(Sigma, s.Weight)).Aggregate((n, m) => n * m);
+        var sigma = EntityBase.GetValue<double>("Sigma");
+        Sigma = sigma == double.NaN ? new LikelihoodSigma(likelihoodList).Sigma : sigma;
+
+        var retVal = likelihoodList.Select(s => s.GetLikelihood(Sigma, s.Weight)).Aggregate((n, m) => n * m);
 
           return retVal;
         }
@@ -44,6 +48,9 @@ namespace Itu.Library.Alignment.Compare
     //  return 0.296;
     //}
 
+
+    /*****************************  I just tried  ************************************/
+    /*
     public double CreateSigma(LikelihoodFactorList likelihoodList)
     {
       double sigma = 0.0;
@@ -114,8 +121,6 @@ namespace Itu.Library.Alignment.Compare
           _sigma = i;
         }
 
-        
-
       }
 
       sigma = _sigma;  //29684860000750612, 296848, 296687, 0.296799 
@@ -126,6 +131,9 @@ namespace Itu.Library.Alignment.Compare
       ////I will calculate later, but now sigma will be accepted 0.296 for AND op, 0.*** for OR operation
       //return 0.296;
     }
+    */
+    /*****************************  I just tried  ************************************/
+
 
   }
 
