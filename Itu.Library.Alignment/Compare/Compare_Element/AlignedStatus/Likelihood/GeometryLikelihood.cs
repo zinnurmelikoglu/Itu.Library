@@ -1,4 +1,5 @@
 ﻿using Itu.Library.Alignment.Geometry;
+using Rhino.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,12 +57,18 @@ namespace Itu.Library.Alignment.Compare
     public double CreateAverageLikelihood()
     {
       var total = 0.0;
-      int i = GeometryList.Count;
-      GeometryList.ForEach(geometry => { total += geometry.Likelihood; });
+      double divider = 0.0;
 
-      return total / i;
+      foreach (var item in GeometryList)
+      {
+        var likelihood = item.Likelihood;
+        double area = item.Area;
+        total += likelihood * area;
+        divider += area;
+      }
+      return total / divider;
+      
     }
-
 
   }
 }

@@ -16,6 +16,7 @@ namespace Itu.Library.Alignment.Geometry
     public bool isAligned { get; set; }
     public bool isSelected { get; set; }
     public Point3d CenterPoint => Geometry.CenterPoint();
+    public Double Area => AreaMassProperties.Compute(this.Geometry.ToPolylineCurve()).Area;
     public List<PLGeometry> AlignedGeometry { get; set; }
     public List<PLElement> ElementList { get; }
     public double Likelihood { get; set; }
